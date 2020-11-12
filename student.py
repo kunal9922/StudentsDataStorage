@@ -16,7 +16,7 @@ class StudentRecord:
 
 		# =============== Manage Frame =================
 				# This frame contain txt box where  values will insert
-		manageFrame = LabelFrame(self.root, text="Mange Data", font=("Time Roman",20,"bold"), bd=4, fg='Black', bg="#ff9933")
+		manageFrame = LabelFrame(self.root, text="Manage Data", font=("Time Roman",20,"bold"), bd=4, fg='Black', bg="#ff9933")
 		manageFrame.place(x=30, y=70, width=460, height=550)
 
 		lbl_roll = Label(manageFrame, text="Roll No : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
