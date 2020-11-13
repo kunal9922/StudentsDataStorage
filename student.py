@@ -17,7 +17,7 @@ class StudentRecord:
 		# =============== Manage Frame =================
 				# This frame contain txt box where  values will insert
 		manageFrame = LabelFrame(self.root, text="Manage Data", font=("Time Roman",20,"bold"), bd=4, fg='Black', bg="#ff9933")
-		manageFrame.place(x=30, y=70, width=460, height=550)
+		manageFrame.place(x=30, y=70, width=460, height=660)
 
 		lbl_roll = Label(manageFrame, text="Roll No : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
 		lbl_roll.grid(row=0, column=0, padx=10, pady=10, sticky="w")
@@ -55,9 +55,20 @@ class StudentRecord:
 		txt_dob = Entry(manageFrame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25)
 		txt_dob.grid(row=6, column=1, padx=10, pady=10, sticky="w")
 
+		#========== button frame ==========
+		btnFrame = LabelFrame(manageFrame, bd=6, relief ="solid", fg='Black', bg="#7bfc03")
+		btnFrame.place(x=10, y=500, width=430)
+
+		addbtn = Button(btnFrame, text="Add", width=10).grid(row=0,column=0, padx=10,pady=10)
+		deletebtn = Button(btnFrame, text="Delete", width=10).grid(row=0, column=1, padx=10, pady=10)
+		updatebtn = Button(btnFrame, text="Update", width=10).grid(row=0, column=2, padx=10, pady=10)
+		clearbtn = Button(btnFrame, text="Clear", width=10).grid(row=0, column=3, padx=10, pady=10)
+
+
 		# ============== Record Showing Frame ================
 				# This frame contain list box where  values will shows.
-		recordFrame = LabelFrame(self.root, text="Showing Records", font=("Time Roman", 20, "bold"), bd=4, fg='Black', bg="#ff9933")
+		recordFrame = LabelFrame(self.root, text="Showing Records", font=("Time Roman", 20, "bold"), bd=4 ,fg='Black', bg="#ff9933")
+
 		recordFrame.place(x=500, y=70, width=800, height=550)
 
 if __name__ == "__main__":
