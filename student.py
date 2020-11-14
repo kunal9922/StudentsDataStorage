@@ -13,14 +13,16 @@ class StudentManagementSystem:
 		self.screenHeight = self.root.winfo_screenheight()
 
 		self.root.geometry(f'{self.screenWidth}x{self.screenHeight}+0+0')
-
+		# DataBase connectivity
+		self.DB = DBconnect.DB_connect()
+		self.studRecordExe()
 
 	def studRecordExe(self):
 
 		# ========== All variables which specifies the type of user input from input box from ManageFrame=======
-		self.RollNum_var = StringVar()
+		self.RollNum_var = IntVar()
 		self.Name_var = StringVar()
-		self.Semester_var = StringVar()
+		self.contact_var = StringVar()
 		self.EmailAdd_var = StringVar()
 		self.Gender_var = StringVar()
 		self.DOB_var = StringVar()
@@ -40,10 +42,10 @@ class StudentManagementSystem:
 		txt_Name = Entry(manageFrame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.Name_var)
 		txt_Name.grid(row=1, column=1, padx=10, pady=10, sticky="w")
 
-		lbl_Sem = Label(manageFrame, text="Semester : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
-		lbl_Sem.grid(row=2, column=0, padx=10, pady=10, sticky="w")
-		txt_Sem = Entry(manageFrame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.Semester_var)
-		txt_Sem.grid(row=2, column=1, padx=10, pady=10, sticky="w")
+		lbl_Contact = Label(manageFrame, text="Contact : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
+		lbl_Contact.grid(row=2, column=0, padx=10, pady=10, sticky="w")
+		txt_Contact = Entry(manageFrame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.contact_var)
+		txt_Contact.grid(row=2, column=1, padx=10, pady=10, sticky="w")
 
 		lbl_Email = Label(manageFrame, text="Email : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
 		lbl_Email.grid(row=3, column=0, padx=10, pady=10, sticky="w")
@@ -70,10 +72,10 @@ class StudentManagementSystem:
 		btnFrame = LabelFrame(manageFrame, bd=6, relief ="solid", fg='Black', bg="#7bfc03")
 		btnFrame.place(x=10, y=500, width=430)
 
-		addbtn = Button(btnFrame, text="Add", width=10, font=("Consolas", 10, "bold")).grid(row=0,column=0, padx=10,pady=10)
-		deletebtn = Button(btnFrame, text="Delete", width=10, font=("Consolas", 10, "bold")).grid(row=0, column=1, padx=10, pady=10)
-		updatebtn = Button(btnFrame, text="Update", width=10, font=("Consolas", 10, "bold")).grid(row=0, column=2, padx=10, pady=10)
-		clearbtn = Button(btnFrame, text="Clear", width=10, font=("Consolas", 10, "bold")).grid(row=0, column=3, padx=10, pady=10)
+		self.addbtn = Button(btnFrame, text="Add", width=10, font=("Consolas", 10, "bold"), command=self.insert).grid(row=0,column=0, padx=10,pady=10)
+		self.deletebtn = Button(btnFrame, text="Delete", width=10, font=("Consolas", 10, "bold")).grid(row=0, column=1, padx=10, pady=10)
+		self.updatebtn = Button(btnFrame, text="Update", width=10, font=("Consolas", 10, "bold")).grid(row=0, column=2, padx=10, pady=10)
+		self.clearbtn = Button(btnFrame, text="Clear", width=10, font=("Consolas", 10, "bold")).grid(row=0, column=3, padx=10, pady=10)
 
 
 		# ============== Record Showing Frame ================
@@ -85,7 +87,7 @@ class StudentManagementSystem:
 		searchLabel.grid(row=0, column=0, padx=10, pady=10)
 
 		com_gen = ttk.Combobox(recordFrame, font=("Consolas", 18, "bold"), width=10, state="readonly")
-		com_gen["values"] = ("Roll Num", "Name", "Semester", "Email", "Gender", "DateOfBirth", "Address")
+		com_gen["values"] = ("Roll Num", "Name", "Contact", "Email", "Gender", "DateOfBirth", "Address")
 		com_gen.grid(row=0, column=1, padx=5, pady=10)
 
 		txt_Search = Entry(recordFrame, font=("Consolas", 15, "bold"), bd=5, relief="ridge", width=25)
@@ -101,20 +103,28 @@ class StudentManagementSystem:
 		# ========== showing stored record on this frame ==========
 		scroll_X = Scrollbar(tableFrame, orient=HORIZONTAL)
 		scroll_Y = Scrollbar(tableFrame, orient=VERTICAL)
-		studentRecordTable = ttk.Treeview(tableFrame, columns=("roll", "name", "sem", "email", "gender", "dob", "address"), xscrollcommand=scroll_X.set, yscrollcommand=scroll_Y.set)
+		studentRecordTable = ttk.Treeview(tableFrame, columns=("roll", "name", "contact", "email", "gender", "dob", "address"), xscrollcommand=scroll_X.set, yscrollcommand=scroll_Y.set)
 		scroll_X.pack(side=BOTTOM, fill=X)
 		scroll_Y.pack(side=RIGHT, fill=Y)
 		scroll_X.config(command=studentRecordTable.xview)
 		scroll_Y.config(command=studentRecordTable.yview)
 		studentRecordTable.heading("roll", text="Roll Num")
 		studentRecordTable.heading("name", text="Name")
-		studentRecordTable.heading("sem", text="Semester")
+		studentRecordTable.heading("contact", text="Contact")
 		studentRecordTable.heading("email", text="Email")
 		studentRecordTable.heading("gender", text="Gender")
 		studentRecordTable.heading("dob", text="DateOFBirth")
 		studentRecordTable.heading("address", text="Address")
 		studentRecordTable["show"] = "headings"
-		studentRecordTable.pack(expand=True,fill=BOTH)
+		studentRecordTable.pack(expand=True, fill=BOTH)
+
+	#====== DataBase operation functions =======
+	def insert(self):
+		data = (self.RollNum_var.get(), self.Name_var.get(), self.contact_var.get(),
+			        self.EmailAdd_var.get(), self.Gender_var.get(), self.DOB_var.get(), self.txt_address.get("1.0", END))
+		self.DB.addIntoDB(data)
+
+
 
 if __name__ == "__main__":
 	win = Tk()
