@@ -19,3 +19,9 @@ class DB_connect():
 
 		self.mydb.commit()
 
+	def gettingData(self):
+		sqlQuery = "SELECT * FROM stdrecord"  # getting all attribute from Table
+		self.cursor.execute(sqlQuery)
+		rows = self.cursor.fetchall()
+		return rows
+

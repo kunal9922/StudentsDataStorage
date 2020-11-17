@@ -11,4 +11,4 @@ GUI look like.
 6. DOB varchar(10).
 7. Address varchar(80).
 
-<img src="Images\GUIscreenShort.png" alt="&quot;&quot;" style="zoom:80%;" />
+<img src="Images\GUIscreenShort.png" alt="&quot;&quot;" style="zoom:50%;" />

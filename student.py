@@ -103,28 +103,39 @@ class StudentManagementSystem:
 		# ========== showing stored record on this frame ==========
 		scroll_X = Scrollbar(tableFrame, orient=HORIZONTAL)
 		scroll_Y = Scrollbar(tableFrame, orient=VERTICAL)
-		studentRecordTable = ttk.Treeview(tableFrame, columns=("roll", "name", "contact", "email", "gender", "dob", "address"), xscrollcommand=scroll_X.set, yscrollcommand=scroll_Y.set)
+		self.studentRecordTable = ttk.Treeview(tableFrame, columns=("roll", "name", "contact", "email", "gender", "dob", "address"), xscrollcommand=scroll_X.set, yscrollcommand=scroll_Y.set)
 		scroll_X.pack(side=BOTTOM, fill=X)
 		scroll_Y.pack(side=RIGHT, fill=Y)
-		scroll_X.config(command=studentRecordTable.xview)
-		scroll_Y.config(command=studentRecordTable.yview)
-		studentRecordTable.heading("roll", text="Roll Num")
-		studentRecordTable.heading("name", text="Name")
-		studentRecordTable.heading("contact", text="Contact")
-		studentRecordTable.heading("email", text="Email")
-		studentRecordTable.heading("gender", text="Gender")
-		studentRecordTable.heading("dob", text="DateOFBirth")
-		studentRecordTable.heading("address", text="Address")
-		studentRecordTable["show"] = "headings"
-		studentRecordTable.pack(expand=True, fill=BOTH)
+		scroll_X.config(command=self.studentRecordTable.xview)
+		scroll_Y.config(command=self.studentRecordTable.yview)
+		self.studentRecordTable.heading("roll", text="Roll Num")
+		self.studentRecordTable.heading("name", text="Name")
+		self.studentRecordTable.heading("contact", text="Contact")
+		self.studentRecordTable.heading("email", text="Email")
+		self.studentRecordTable.heading("gender", text="Gender")
+		self.studentRecordTable.heading("dob", text="DateOFBirth")
+		self.studentRecordTable.heading("address", text="Address")
+		self.studentRecordTable["show"] = "headings"
+		self.studentRecordTable.pack(expand=True, fill=BOTH)
+
+		#showing data
+		self.fetchData()
 
 	#====== DataBase operation functions =======
 	def insert(self):
 		data = (self.RollNum_var.get(), self.Name_var.get(), self.contact_var.get(),
 			        self.EmailAdd_var.get(), self.Gender_var.get(), self.DOB_var.get(), self.txt_address.get("1.0", END))
 		self.DB.addIntoDB(data)
+		# when any insertion happen so update our treeView
+		self.fetchData()
 
-
+	def fetchData(self):
+		rows = self.DB.gettingData()
+		if len(rows) != 0:  # data is update in a table so we need to show new data that's why we delete data in a treeView
+			self.studentRecordTable.delete(*self.studentRecordTable.get_children())
+			# updatation
+			for row in rows:
+				self.studentRecordTable.insert('', END, values=row)
 
 if __name__ == "__main__":
 	win = Tk()
