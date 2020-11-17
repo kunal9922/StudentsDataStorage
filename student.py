@@ -75,7 +75,7 @@ class StudentManagementSystem:
 		self.addbtn = Button(btnFrame, text="Add", width=10, font=("Consolas", 10, "bold"), command=self.insert).grid(row=0,column=0, padx=10,pady=10)
 		self.deletebtn = Button(btnFrame, text="Delete", width=10, font=("Consolas", 10, "bold")).grid(row=0, column=1, padx=10, pady=10)
 		self.updatebtn = Button(btnFrame, text="Update", width=10, font=("Consolas", 10, "bold")).grid(row=0, column=2, padx=10, pady=10)
-		self.clearbtn = Button(btnFrame, text="Clear", width=10, font=("Consolas", 10, "bold")).grid(row=0, column=3, padx=10, pady=10)
+		self.clearbtn = Button(btnFrame, text="Clear", width=10, font=("Consolas", 10, "bold"), command=self.clearData).grid(row=0, column=3, padx=10, pady=10)
 
 
 		# ============== Record Showing Frame ================
@@ -136,6 +136,16 @@ class StudentManagementSystem:
 			# updatation
 			for row in rows:
 				self.studentRecordTable.insert('', END, values=row)
+
+	def clearData(self):
+		self.RollNum_var.set("")
+		self.Name_var.set("")
+		self.contact_var.set("")
+		self.EmailAdd_var.set("")
+		self.Gender_var.set("")
+		self.DOB_var.set("")
+		self.txt_address.delete("1.0", END)
+
 
 if __name__ == "__main__":
 	win = Tk()
