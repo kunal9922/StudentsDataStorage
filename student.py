@@ -120,6 +120,9 @@ class StudentManagementSystem:
 
 		#showing data
 		self.fetchData()
+		# get data from where the cursor will focus on
+		self.studentRecordTable.bind("<ButtonRelease-1>", self.getCursorData)
+
 
 	#====== DataBase operation functions =======
 	def insert(self):
@@ -146,6 +149,21 @@ class StudentManagementSystem:
 		self.DOB_var.set("")
 		self.txt_address.delete("1.0", END)
 
+	def getCursorData(self, event):
+		cursorFocusRow = self.studentRecordTable.focus()
+		contents = self.studentRecordTable.item(cursorFocusRow)
+		row = contents["values"]
+		# show the values of where the cursor will hover on the studentRecordTable
+		self.RollNum_var.set(row[0])
+		self.Name_var.set(row[1])
+		self.contact_var.set(row[2])
+		self.EmailAdd_var.set(row[3])
+		self.Gender_var.set(row[4])
+		self.DOB_var.set(row[5])
+		self.txt_address.delete("1.0", END)
+		self.txt_address.insert("1.0", row[6])
+
+		#print(row)
 
 if __name__ == "__main__":
 	win = Tk()
