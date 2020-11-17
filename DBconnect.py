@@ -15,7 +15,14 @@ class DB_connect():
 		'''Rollnum, Name, contact, Email, Gender, DOB, Address'''
 		#query to insert into DB table
 		sqlQuery = "INSERT INTO stdrecord values(%s, %s, %s, %s, %s, %s, %s )"
-		self.cursor.execute(sqlQuery, items)
+
+		try:
+			self.cursor.execute(sqlQuery, items)
+			return True
+		except mysql.connector.errors.IntegrityError as prime:
+			# if  primary key is already exist so data insertion is not possible
+			return False
+
 
 		self.mydb.commit()
 

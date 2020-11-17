@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 from tkinter import ttk
 import DBconnect
 
@@ -128,7 +129,12 @@ class StudentManagementSystem:
 	def insert(self):
 		data = (self.RollNum_var.get(), self.Name_var.get(), self.contact_var.get(),
 			        self.EmailAdd_var.get(), self.Gender_var.get(), self.DOB_var.get(), self.txt_address.get("1.0", END))
-		self.DB.addIntoDB(data)
+
+		InsertDone = self.DB.addIntoDB(data)
+		if InsertDone:
+			messagebox.showinfo("Insertion", "Insertion is successFully Done")
+		else:
+			messagebox.showerror("Insertion", f"Insertion is not possible because  Rollno {self.RollNum_var.get()} exist in table")
 		# when any insertion happen so update our treeView
 		self.fetchData()
 
