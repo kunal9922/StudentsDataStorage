@@ -18,13 +18,12 @@ class DB_connect():
 
 		try:
 			self.cursor.execute(sqlQuery, items)
+			self.mydb.commit()
 			return True
-		except mysql.connector.errors.IntegrityError as prime:
+
+		except mysql.connector.errors.IntegrityError:
 			# if  primary key is already exist so data insertion is not possible
 			return False
-
-
-		self.mydb.commit()
 
 	def gettingData(self):
 		sqlQuery = "SELECT * FROM stdrecord"  # getting all attribute from Table
@@ -32,3 +31,7 @@ class DB_connect():
 		rows = self.cursor.fetchall()
 		return rows
 
+	def updateData(self, items: tuple):
+		sqlQuery = "UPDATE stdrecord SET RollNum=%s, Name=%s, Contact=%s, Email=%s, Gender=%s, DOB=%s, Adress=%s WHERE RollNum=%s"
+		self.cursor.execute(sqlQuery, items)
+		self.mydb.commit()
