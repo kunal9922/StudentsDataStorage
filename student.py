@@ -133,11 +133,15 @@ class StudentManagementSystem:
 		data = (self.RollNum_var.get(), self.Name_var.get(), self.contact_var.get(),
 			        self.EmailAdd_var.get(), self.Gender_var.get(), self.DOB_var.get(), self.txt_address.get("1.0", END))
 
-		InsertDone = self.DB.addIntoDB(data)
-		if InsertDone:
-			messagebox.showinfo("Insertion", "Insertion is successFully Done")
+		if self.RollNum_var.get() == '' or self.Name_var.get() == '' :
+			messagebox.showerror("RollNum or Name not inserted", "insert RollNum and Name field is mandatory")
 		else:
-			messagebox.showerror("Insertion", f"Insertion is not possible because  Rollno {self.RollNum_var.get()} exist in table")
+			InsertDone = self.DB.addIntoDB(data)
+
+			if InsertDone:
+				messagebox.showinfo("Insertion", "Insertion is successFully Done")
+			else:
+				messagebox.showerror("Insertion", f"Insertion is not possible because  Rollno {self.RollNum_var.get()} exist in table")
 		# when any insertion happen so update our treeView
 		self.fetchData()
 

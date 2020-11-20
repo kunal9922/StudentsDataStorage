@@ -38,7 +38,7 @@ class DB_connect():
 
 	def deleteData(self, key: int):
 
-		sqlQuery = "DELETE FROM stdrecord WHERE RollNum = %s"
+		sqlQuery = "DELETE FROM stdrecord WHERE RollNum=%s"
 		self.cursor.execute(sqlQuery, key)
 		self.mydb.commit()
 
