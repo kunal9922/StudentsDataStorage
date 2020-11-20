@@ -28,6 +28,9 @@ class StudentManagementSystem:
 		self.Gender_var = StringVar()
 		self.DOB_var = StringVar()
 
+		self.searchBy = StringVar()
+		self.searchTxt = StringVar()
+
 		# =============== Manage Frame =================
 				# This frame contain txt box where  values will insert
 		manageFrame = LabelFrame(self.root, text="Manage Data", font=("Time Roman", 20, "bold"), bd=4, fg='Black', bg="#ff9933")
@@ -74,7 +77,7 @@ class StudentManagementSystem:
 		btnFrame.place(x=10, y=500, width=430)
 
 		self.addbtn = Button(btnFrame, text="Add", width=10, font=("Consolas", 10, "bold"), command=self.insert).grid(row=0,column=0, padx=10,pady=10)
-		self.deletebtn = Button(btnFrame, text="Delete", width=10, font=("Consolas", 10, "bold")).grid(row=0, column=1, padx=10, pady=10)
+		self.deletebtn = Button(btnFrame, text="Delete", width=10, font=("Consolas", 10, "bold"), command=self.deleteInfo).grid(row=0, column=1, padx=10, pady=10)
 		self.updatebtn = Button(btnFrame, text="Update", width=10, font=("Consolas", 10, "bold"), command=self.updateData).grid(row=0, column=2, padx=10, pady=10)
 		self.clearbtn = Button(btnFrame, text="Clear", width=10, font=("Consolas", 10, "bold"), command=self.clearData).grid(row=0, column=3, padx=10, pady=10)
 
@@ -87,15 +90,15 @@ class StudentManagementSystem:
 		searchLabel = Label(recordFrame, text="Search : ", font=("Consolas", 18, "bold"), fg="#adfc03", bg="#ff9933")
 		searchLabel.grid(row=0, column=0, padx=10, pady=10)
 
-		com_gen = ttk.Combobox(recordFrame, font=("Consolas", 18, "bold"), width=10, state="readonly")
-		com_gen["values"] = ("Roll Num", "Name", "Contact", "Email", "Gender", "DateOfBirth", "Address")
+		com_gen = ttk.Combobox(recordFrame, font=("Consolas", 18, "bold"), width=10, state="readonly", textvariable=self.searchBy)
+		com_gen["values"] = ("RollNum", "Name", "Contact")
 		com_gen.grid(row=0, column=1, padx=5, pady=10)
 
-		txt_Search = Entry(recordFrame, font=("Consolas", 15, "bold"), bd=5, relief="ridge", width=25)
+		txt_Search = Entry(recordFrame, font=("Consolas", 15, "bold"), bd=5, relief="ridge", width=25, textvariable=self.searchTxt)
 		txt_Search.grid(row=0, column=2, padx=5, pady=10, sticky="w")
 
-		searchBtn = Button(recordFrame, text="Search ", width=8, font=("Consolas", 14, "bold")).grid(row=0, column=3, padx=10, pady=10)
-		showBtn = Button(recordFrame, text="ShowAll ", width=8, font=("Consolas", 14, "bold")).grid(row=0, column=4, padx=10, pady=10)
+		searchBtn = Button(recordFrame, text="Search ", width=8, font=("Consolas", 14, "bold"), command=self.fetchBySearch).grid(row=0, column=3, padx=10, pady=10)
+		showBtn = Button(recordFrame, text="ShowAll ", width=8, font=("Consolas", 14, "bold"), command=self.fetchData).grid(row=0, column=4, padx=10, pady=10)
 
 		#=========== Table Data Frame ============
 		tableFrame = Frame(recordFrame, bd=2, relief="ridge", bg="Crimson" )
@@ -179,6 +182,24 @@ class StudentManagementSystem:
 		self.fetchData()
 		# And clear our text box for again put new data
 		self.clearData()
+
+	def deleteInfo(self):
+		keyRoll = self.RollNum_var.get()
+		self.DB.deleteData(key=keyRoll)
+		# when any update happen so update our treeView
+		self.fetchData()
+		# And clear our text box for again put new data
+		self.clearData()
+
+	def fetchBySearch(self):
+		query = "SELECT * FROM stdrecord WHERE "+str(self.searchBy.get())+" LIKE '%"+str(self.searchTxt.get())+"%'"
+		print(query)
+		rows = self.DB.searchByFetch(query)
+		if len(rows) != 0:  # data is update in a table so we need to show new data that's why we delete data in a treeView
+			self.studentRecordTable.delete(*self.studentRecordTable.get_children())
+			# updatation
+			for row in rows:
+				self.studentRecordTable.insert('', END, values=row)
 
 if __name__ == "__main__":
 	win = Tk()

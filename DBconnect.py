@@ -35,3 +35,13 @@ class DB_connect():
 		sqlQuery = "UPDATE stdrecord SET RollNum=%s, Name=%s, Contact=%s, Email=%s, Gender=%s, DOB=%s, Adress=%s WHERE RollNum=%s"
 		self.cursor.execute(sqlQuery, items)
 		self.mydb.commit()
+
+	def deleteData(self, key: int):
+
+		sqlQuery = "DELETE FROM stdrecord WHERE RollNum = %s"
+		self.cursor.execute(sqlQuery, key)
+		self.mydb.commit()
+
+	def searchByFetch(self, sqlQuery):
+		self.cursor.execute(sqlQuery)
+		return self.cursor.fetchall()
