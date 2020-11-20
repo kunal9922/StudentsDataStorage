@@ -196,14 +196,19 @@ class StudentManagementSystem:
 		self.clearData()
 
 	def fetchBySearch(self):
-		query = "SELECT * FROM stdrecord WHERE "+str(self.searchBy.get())+" LIKE '%"+str(self.searchTxt.get())+"%'"
-		print(query)
-		rows = self.DB.searchByFetch(query)
-		if len(rows) != 0:  # data is update in a table so we need to show new data that's why we delete data in a treeView
-			self.studentRecordTable.delete(*self.studentRecordTable.get_children())
-			# updatation
-			for row in rows:
-				self.studentRecordTable.insert('', END, values=row)
+		if self.searchBy.get() == "":
+			messagebox.showerror("Errror", "choose any field on search box")
+		elif self.searchTxt.get() == "":
+			messagebox.showerror("Error", "Insert into text field. which you want to search")
+		else:
+			query = "SELECT * FROM stdrecord WHERE "+str(self.searchBy.get())+" LIKE '%"+str(self.searchTxt.get())+"%'"
+			print(query)
+			rows = self.DB.searchByFetch(query)
+			if len(rows) != 0:  # data is update in a table so we need to show new data that's why we delete data in a treeView
+				self.studentRecordTable.delete(*self.studentRecordTable.get_children())
+				# updatation
+				for row in rows:
+					self.studentRecordTable.insert('', END, values=row)
 
 if __name__ == "__main__":
 	win = Tk()
