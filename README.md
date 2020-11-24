@@ -12,3 +12,9 @@ GUI look like.
 7. Address varchar(80).
 
 <img src="Images\GUIscreenShort.png" alt="&quot;&quot;" style="zoom:50%;" />
+
+
+
+## Schema design in database 
+
+![](Images\schema design.png)
