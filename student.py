@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 import DBconnect
+from GUI import GUI_project
 
 class StudentManagementSystem:
 	def __init__(self, root):
@@ -14,8 +15,18 @@ class StudentManagementSystem:
 		self.screenHeight = self.root.winfo_screenheight()
 
 		self.root.geometry(f'{self.screenWidth}x{self.screenHeight}+0+0')
+		# before that of project will start so we take user id and password for database connectivity
+		gui = GUI_project(self.root)
+		gui.gui_db_connect()
+
+
+
 		# DataBase connectivity
-		self.DB = DBconnect.DB_connect()
+		self.DB = DBconnect.DB_connect("localhost", "root", "kunal9922soni", "studentRecordtest")
+
+
+
+
 		self.studRecordExe()
 
 	def studRecordExe(self):
