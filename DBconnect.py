@@ -45,3 +45,8 @@ class DB_connect():
 	def searchByFetch(self, sqlQuery):
 		self.cursor.execute(sqlQuery)
 		return self.cursor.fetchall()
+
+	def showDBs(self):
+		sqlQuery = "SHOW DATABASES"
+		self.cursor.execute(sqlQuery)
+		return self.cursor.fetchall()

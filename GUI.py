@@ -1,24 +1,33 @@
 import tkinter as tk
+import DBconnect
 from tkinter import messagebox
 class ShowDBFrame():
 	def DBFrame(self, rootWin):
-		self.lableDBframe = tk.LabelFrame(rootWin, text="DataBase Entry", font=("Time Roman", 20, "bold"), bd=4,width=400, height=200)
-		'''dblabel = tk.Label(self.lableDBframe, text="Have DATABASE ?")
-		dbHave = tk.Checkbutton(rootWin, text="Yes", onvalue=1, offvalue=0)
-		dbHaveNot = tk.Checkbutton(rootWin, text="No", onvalue=1, offvalue=0)
-		'''
+		self.lableDBframe = tk.LabelFrame(rootWin, text="DataBase Entry", font=("Time Roman", 20, "bold"), bd=4)
+
 		# place where all available DB will show
 		self.lableDBframe.grid(row=3, column=0, padx=10, pady=10)
-		xscroll = tk.Scrollbar(self.lableDBframe,orient=tk.HORIZONTAL)
+
+		avaiDBs = tk.Label(self.lableDBframe, text="Available DataBases  ", font=("Time Roman", 20, "bold"), fg="#6764fa")
+		avaiDBs.pack(side=tk.TOP, padx=10, pady=10)
+		xscroll = tk.Scrollbar(self.lableDBframe, orient=tk.HORIZONTAL)
 		yscroll = tk.Scrollbar(self.lableDBframe, orient=tk.VERTICAL)
-		listDBs= tk.Listbox(self.lableDBframe, bg="#22e6d5", fg="#000000", bd=2, relief="ridge", font=("Time Roman", 20, "bold"), xscrollcommand=xscroll.set, yscrollcommand=yscroll.set)
+		self.listDBs= tk.Listbox(self.lableDBframe, fg="#000000", bd=0, relief="flat", font=("Time Roman", 20, "bold"))
 
+		self.listDBs.config(xscrollcommand=xscroll.set, yscrollcommand=yscroll.set)
 		xscroll.pack(fill=tk.X, side=tk.BOTTOM)
-		xscroll.config(command=listDBs.xview)
-		yscroll.config(command=listDBs.yview)
+		xscroll.config(command=self.listDBs.xview)
+		yscroll.config(command=self.listDBs.yview)
 		yscroll.pack(fill=tk.Y, side=tk.RIGHT)
+		self.listDBs.pack()
 
-		listDBs.pack()
+		# insert result to it's list boxes
+		self.DB = DBconnect.DB_connect("localhost", "root", "kunal9922soni", "studentRecordtest")
+		listofDBs = self.DB.showDBs()
+
+		for dbName in listofDBs:
+			self.listDBs.insert(tk.END, dbName)
+
 
 class GUI_project(ShowDBFrame):
 	def __init__(self, RootWin):
