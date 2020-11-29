@@ -1,13 +1,13 @@
 import mysql.connector
 
 class DB_connect():
-	def __init__(self, hostName, userName, passsword, dbName):
+	database=""
+	def __init__(self, hostName, userName, passsword):
 		# default connected database
 		self.hostName = hostName
 		self.userName = userName
 		self.passsword = passsword
-		self.dbName = dbName
-		self.mydb = mysql.connector.connect(host=self.hostName, user=self.userName, passwd=self.passsword, database=self.dbName)
+		self.mydb = mysql.connector.connect(host=self.hostName, user=self.userName, passwd=self.passsword)
 
 		self.cursor = self.mydb.cursor()
 
@@ -50,3 +50,12 @@ class DB_connect():
 		sqlQuery = "SHOW DATABASES"
 		self.cursor.execute(sqlQuery)
 		return self.cursor.fetchall()
+
+	def showTables(self):
+		sqlQuery = "SHOW Tables"
+		self.cursor.execute(sqlQuery)
+		return self.cursor.fetchall()
+
+	def useOtherDB(self):
+		sqlQuery = "USE %s"
+		self.cursor.execute(sqlQuery, self.database)

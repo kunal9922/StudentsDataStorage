@@ -16,16 +16,11 @@ class StudentManagementSystem:
 
 		self.root.geometry(f'{self.screenWidth}x{self.screenHeight}+0+0')
 		# before that of project will start so we take user id and password for database connectivity
-		gui = GUI_project(self.root)
-		gui.gui_db_connect()
 
 
 
 		# DataBase connectivity
-		self.DB = DBconnect.DB_connect("localhost", "root", "kunal9922soni", "studentRecordtest")
-
-
-
+		self.DB = DBconnect.DB_connect("localhost", "root", "kunal9922soni")
 
 		self.studRecordExe()
 
@@ -223,5 +218,7 @@ class StudentManagementSystem:
 
 if __name__ == "__main__":
 	win = Tk()
-	root = StudentManagementSystem(win)
+	gui = GUI_project(win)
+	gui.gui_db_connect()
+	#StudentManagementSystem(win)
 	win.mainloop()
