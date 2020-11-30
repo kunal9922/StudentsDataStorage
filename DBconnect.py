@@ -1,7 +1,8 @@
 import mysql.connector
 
 class DB_connect():
-	database=""
+	database="do"
+	table = ""
 	def __init__(self, hostName, userName, passsword):
 		# default connected database
 		self.hostName = hostName
@@ -46,19 +47,20 @@ class DB_connect():
 		self.cursor.execute(sqlQuery)
 		return self.cursor.fetchall()
 
-	def showDBs(self):
-		sqlQuery = "SHOW DATABASES"
+	def shows(self, whichSet: str):
+		sqlQuery = f"SHOW {whichSet}"
 		self.cursor.execute(sqlQuery)
 		return self.cursor.fetchall()
 
 	def showTables(self):
-		sqlQuery = "SHOW Tables"
+		sqlQuery = "SHOW TABLES"
 		self.cursor.execute(sqlQuery)
 		return self.cursor.fetchall()
 
 	def useOtherDB(self):
-		sqlQuery = "USE %s"
-		self.cursor.execute(sqlQuery, self.database)
+		sqlQuery = f"USE {self.database}"
+		self.cursor.execute(sqlQuery)
+		self.mydb.commit()
 
 	def createDB(self,dbName):
 		self.database = dbName
@@ -69,4 +71,5 @@ class DB_connect():
 
 	def createtable(self, tableName):
 		sqlQuery = f"CREATE TABLE IF NOT EXISTS {tableName}"
+		self.mydb.commit()
 
