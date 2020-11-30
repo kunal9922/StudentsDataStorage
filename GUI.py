@@ -10,6 +10,26 @@ class ShowDBFrame():
 		cs = self.listDBs.curselection()[0]
 		self.dbvartxt.set(self.listDBs.get(cs))
 
+	def createdb(self):
+		print(self.dbvartxt.get())
+		self.DB.createDB(self.dbvartxt.get())
+		listofDBs = self.DB.showDBs()
+
+		# fill rows of Available databases
+		for dbName in listofDBs:
+			self.listDBs.insert(tk.END, dbName)
+
+		def useExistsDB():
+			self.DB.useOtherDB()
+
+	def createTable(self):
+		print(self.dbvartxt.get())
+		self.DB.createDB(self.dbvartxt.get())
+		listofDBs = self.DB.showDBs()
+
+		# fill rows of Available databases
+		for dbName in listofDBs:
+			self.listDBs.insert(tk.END, dbName)
 
 	def DBFrame(self):
 		self.lableDBframe = tk.LabelFrame(self.rootWin, text="DataBase Entry", font=("Time Roman", 20, "bold"), bd=3, relief="ridge", bg="#73ebe1")
@@ -35,18 +55,19 @@ class ShowDBFrame():
 		dbNameEntry = tk.Entry(self.lableDBframe, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, bg="red", fg="#ffffff", textvariable=self.dbvartxt)
 		dbNameEntry.grid(row=2, column=0, padx=5, pady=5, columnspan=2)
 		useDBbtn = tk.Button(self.lableDBframe, font=("Consolas", 15, "bold"), text="Use DB").grid(row=3, column=0, padx=5, pady=5)
-		createDBbtn = tk.Button(self.lableDBframe, font=("Consolas", 15, "bold"), text="Create DB").grid(row=3, column=1, padx=5, pady=5)
+		createDBbtn = tk.Button(self.lableDBframe, font=("Consolas", 15, "bold"), text="Create DB",  command=self.createdb).grid(row=3, column=1, padx=5, pady=5)
 
 		# insert result to it's list boxes
 		self.DB = DBconnect.DB_connect("localhost", "root", "kunal9922soni")
 		self.DB.database = self.dbvartxt.get()
 		listofDBs = self.DB.showDBs()
-
-		self.listDBs.bind("<<ListboxSelect>>", self.getfoucs)
-
 		# fill rows of Available databases
 		for dbName in listofDBs:
 			self.listDBs.insert(tk.END, dbName)
+
+		self.listDBs.bind("<<ListboxSelect>>", self.getfoucs)
+
+
 
 	def tableFrame(self):
 		self.lableDBframe = tk.LabelFrame(self.rootWin, text="Tables Entry", font=("Time Roman", 20, "bold"), bd=3,
@@ -78,9 +99,9 @@ class ShowDBFrame():
 			self.listDBs.insert(tk.END, dbName)
 
 		self.tablevar = tk.StringVar()
-		dbNameEntry = tk.Entry(self.lableDBframe, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25,
+		tableNameEntry = tk.Entry(self.lableDBframe, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25,
 		                       bg="red", textvariable=self.tablevar)
-		dbNameEntry.grid(row=2, column=0, padx=5, pady=5, columnspan=2)
+		tableNameEntry.grid(row=2, column=0, padx=5, pady=5, columnspan=2)
 		usetablebtn = tk.Button(self.lableDBframe, font=("Consolas", 15, "bold"), text="Use Table").grid(row=3,
 		                                                                                                 column=0,
 		                                                                                                 padx=5, pady=5)
@@ -88,6 +109,8 @@ class ShowDBFrame():
 		                                                                                                       column=1,
 		                                                                                                       padx=5,
 		                                                                                                       pady=5)
+
+
 
 class GUI_project(ShowDBFrame):
 	def __init__(self, RootWin):

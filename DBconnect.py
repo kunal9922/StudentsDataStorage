@@ -59,3 +59,14 @@ class DB_connect():
 	def useOtherDB(self):
 		sqlQuery = "USE %s"
 		self.cursor.execute(sqlQuery, self.database)
+
+	def createDB(self,dbName):
+		self.database = dbName
+		print(type(self.database))
+		sqlQuery = f"CREATE DATABASE IF NOT EXISTS {self.database}"
+		self.cursor.execute(sqlQuery)
+		self.mydb.commit()
+
+	def createtable(self, tableName):
+		sqlQuery = f"CREATE TABLE IF NOT EXISTS {tableName}"
+
