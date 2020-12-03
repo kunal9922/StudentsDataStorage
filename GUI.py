@@ -7,9 +7,13 @@ class ShowDBFrame():
 
 	def getfoucs(self, event):
 
-		cs = self.listDBs.curselection()[0]
-		self.dbvartxt.set(self.listDBs.get(cs)[0])
-		print(self.listDBs.get(cs)[0])
+		try:
+			cs = self.listDBs.curselection()  # list of items we were selected that store inside it variable called cs
+			print(cs)
+			self.dbvartxt.set(self.listDBs.get(cs[0])[0])
+			print(self.listDBs.get(cs[0])[0])
+		except IndexError:
+			pass
 
 	def createdb(self):
 		print(self.dbvartxt.get())
@@ -66,8 +70,11 @@ class ShowDBFrame():
 
 	def getfoucstable(self, event):
 
-		cs = self.listTables.curselection()[0]
-		self.dbvartxt.set(self.listDBs.get(cs))
+		try:
+			cs = self.listTables.curselection()
+			self.tablevar.set(self.listTables.get(cs[0])[0])
+		except IndexError:
+			pass
 
 	def useExistsTable(self):
 		self.DB.table = self.tablevar.get()
@@ -87,11 +94,11 @@ class ShowDBFrame():
 
 		# place where all available DB will show
 		self.lableTableframe.grid(row=3, column=1, padx=10, pady=10)
-		listFrame = tk.Frame(self.lableDBframe)
+		listFrame = tk.Frame(self.lableTableframe)
 		listFrame.grid(row=1, column=0, columnspan=2, pady=10)
-		avaiDBs = tk.Label(self.lableDBframe, text="Available Tables  ", font=("Time Roman", 20, "bold"),
+		avaiTables = tk.Label(self.lableTableframe, text="Available Tables  ", font=("Time Roman", 20, "bold"),
 		                   fg="#6764fa")
-		avaiDBs.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
+		avaiTables.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
 		xscroll = tk.Scrollbar(listFrame, orient=tk.HORIZONTAL)
 		yscroll = tk.Scrollbar(listFrame, orient=tk.VERTICAL)
 		self.listTables = tk.Listbox(listFrame, fg="#000000", bd=0, relief="flat", font=("Time Roman", 15, "bold"))
@@ -119,7 +126,9 @@ class ShowDBFrame():
 		Tables = self.DB.showTables()
 		# fill rows of Available databases
 		for table in Tables:
-			self.listDBs.insert(tk.END, table)
+			self.listTables.insert(tk.END, table)
+
+		self.listTables.bind("<<ListboxSelect>>", self.getfoucstable)
 
 
 class GUI_project(ShowDBFrame):
