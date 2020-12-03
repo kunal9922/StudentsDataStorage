@@ -8,7 +8,8 @@ class ShowDBFrame():
 	def getfoucs(self, event):
 
 		cs = self.listDBs.curselection()[0]
-		self.dbvartxt.set(self.listDBs.get(cs))
+		self.dbvartxt.set(self.listDBs.get(cs)[0])
+		print(self.listDBs.get(cs)[0])
 
 	def createdb(self):
 		print(self.dbvartxt.get())
@@ -20,8 +21,10 @@ class ShowDBFrame():
 			self.listDBs.insert(tk.END, dbName)
 
 	def useExistsDB(self):
-		#self.DB.useOtherDB()
-		pass
+		self.DB.database = self.dbvartxt.get()
+		print(self.dbvartxt.get())
+		self.DB.useOtherDB()
+		self.tableFrame()
 
 	def DBFrame(self):
 		self.lableDBframe = tk.LabelFrame(self.rootWin, text="DataBase Entry", font=("Time Roman", 20, "bold"), bd=3, relief="ridge", bg="#73ebe1")
@@ -59,7 +62,7 @@ class ShowDBFrame():
 
 		self.listDBs.bind("<<ListboxSelect>>", self.getfoucs)
 
-		self.tableFrame()
+		#self.tableFrame()
 
 	def getfoucstable(self, event):
 
@@ -112,7 +115,6 @@ class ShowDBFrame():
 		                                                                                                       padx=5,
 		                                                                                                       pady=5)
 
-		self.useExistsDB()
 		# insert result to it's list boxes
 		Tables = self.DB.showTables()
 		# fill rows of Available databases
