@@ -83,6 +83,7 @@ class ShowDBFrame():
 	def createTable(self):
 		print(self.tablevar.get())
 		self.DB.createtable(self.tablevar.get())
+		self.listTables.delete(0, tk.END)
 		listTables = self.DB.shows("TABLES")
 
 		# fill rows of Available databases
@@ -118,7 +119,7 @@ class ShowDBFrame():
 		usetablebtn = tk.Button(self.lableTableframe, font=("Consolas", 15, "bold"), text="Use Table", command=self.useExistsTable).grid(row=3,
 		                                                                                                 column=0,
 		                                                                                                 padx=5, pady=5)
-		createtablebtn = tk.Button(self.lableTableframe, font=("Consolas", 15, "bold"), text="Create Table", command=self.useExistsTable).grid(row=3,
+		createtablebtn = tk.Button(self.lableTableframe, font=("Consolas", 15, "bold"), text="Create Table", command=self.createTable).grid(row=3,
 		                                                                                                       column=1,
 		                                                                                                       padx=5,
 		                                                                                                       pady=5)

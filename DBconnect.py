@@ -70,6 +70,7 @@ class DB_connect():
 		self.mydb.commit()
 
 	def createtable(self, tableName):
-		sqlQuery = f"CREATE TABLE IF NOT EXISTS {tableName}"
+		sqlQuery = f"CREATE TABLE IF NOT EXISTS {tableName}( RollNum INT(12) PRIMARY KEY, Name varchar(30) NOT NULL, Contact varchar(10), Email varchar(40), Gender varchar(6), DOB varchar(10), Adress varchar(80))"
+		self.cursor.execute(sqlQuery)
 		self.mydb.commit()
 
