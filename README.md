@@ -17,4 +17,8 @@ GUI look like.
 
 ## Schema design in database 
 
-![](Images\schema design.png)
+![](Images\schemaDesign.png)
+
+## First user interaction 
+
+![](Images\firstUserUI.png)

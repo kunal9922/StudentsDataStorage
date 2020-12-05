@@ -69,14 +69,15 @@ class ShowDBFrame():
 		#self.tableFrame()
 
 	def getfoucstable(self, event):
-
 		try:
 			cs = self.listTables.curselection()
 			self.tablevar.set(self.listTables.get(cs[0])[0])
+			print(self.listTables.get(cs[0])[0])
 		except IndexError:
 			pass
 
 	def useExistsTable(self):
+		print("Tables is selecteed = ", self.tablevar.get())
 		self.DB.table = self.tablevar.get()
 
 	def createTable(self):
@@ -114,10 +115,10 @@ class ShowDBFrame():
 		tableNameEntry = tk.Entry(self.lableTableframe, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25,
 		                       bg="red", textvariable=self.tablevar)
 		tableNameEntry.grid(row=2, column=0, padx=5, pady=5, columnspan=2)
-		usetablebtn = tk.Button(self.lableTableframe, font=("Consolas", 15, "bold"), text="Use Table").grid(row=3,
+		usetablebtn = tk.Button(self.lableTableframe, font=("Consolas", 15, "bold"), text="Use Table", command=self.useExistsTable).grid(row=3,
 		                                                                                                 column=0,
 		                                                                                                 padx=5, pady=5)
-		createtablebtn = tk.Button(self.lableTableframe, font=("Consolas", 15, "bold"), text="Create Table").grid(row=3,
+		createtablebtn = tk.Button(self.lableTableframe, font=("Consolas", 15, "bold"), text="Create Table", command=self.useExistsTable).grid(row=3,
 		                                                                                                       column=1,
 		                                                                                                       padx=5,
 		                                                                                                       pady=5)
