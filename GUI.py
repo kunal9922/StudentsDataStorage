@@ -149,8 +149,8 @@ class GUI_project(ShowDBFrame):
 
 		accessDB = ShowDBFrame()
 		#"localhost", "root", "kunal9922soni"
-		accessDB.InfoInput(self.topWin, self.hostNameVar, self.userNameVar, self.passwordVar)
-		print(self.hostNameVar, " : ", self.userNameVar, " : ", self.passwordVar)
+		accessDB.InfoInput(self.topWin, self.hostNameVar.get(), self.userNameVar.get(), self.passwordVar.get())
+		print(self.hostNameVar.get(), " : ", self.userNameVar.get(), " : ", self.passwordVar.get())
 		accessDB.DBFrame()
 
 	def gui_db_connect(self):

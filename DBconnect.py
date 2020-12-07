@@ -1,4 +1,5 @@
 import mysql.connector
+from tkinter import messagebox
 
 class DB_connect():
 	database="do"
@@ -8,9 +9,11 @@ class DB_connect():
 		self.hostName = hostName
 		self.userName = userName
 		self.passsword = passsword
-		self.mydb = mysql.connector.connect(host=self.hostName, user=self.userName, passwd=self.passsword)
-
-		self.cursor = self.mydb.cursor()
+		try:
+			self.mydb = mysql.connector.connect(host=self.hostName, user=self.userName, passwd=self.passsword)
+			self.cursor = self.mydb.cursor()
+		except Exception:
+			messagebox.showerror("Input Entry Error", "Please Enter correct Entries")
 
 	def addIntoDB(self, items: tuple):
 		'''Rollnum, Name, contact, Email, Gender, DOB, Address'''
