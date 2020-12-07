@@ -2,8 +2,10 @@ import tkinter as tk
 import DBconnect
 from tkinter import messagebox
 class ShowDBFrame():
-	def __init__(self, rootWin):
+	def InfoInput(self, rootWin, hostName, userName, password):
+		self.DB = DBconnect.DB_connect(hostName, userName, password)
 		self.rootWin = rootWin
+
 
 	def getfoucs(self, event):
 
@@ -57,7 +59,6 @@ class ShowDBFrame():
 		createDBbtn = tk.Button(self.lableDBframe, font=("Consolas", 15, "bold"), text="Create DB",  command=self.createdb).grid(row=3, column=1, padx=5, pady=5)
 
 		# insert result to it's list boxes
-		self.DB = DBconnect.DB_connect("localhost", "root", "kunal9922soni")
 		self.DB.database = self.dbvartxt.get()
 		listofDBs = self.DB.shows("DATABASES")
 		# fill rows of Available databases
@@ -134,39 +135,49 @@ class ShowDBFrame():
 
 
 class GUI_project(ShowDBFrame):
+
+
 	def __init__(self, RootWin):
 		# toplevel window for connectivity to database
 		self.RootWin = RootWin
-
-	def gui_db_connect(self):
-
 		self.hostNameVar = tk.StringVar()
 		self.userNameVar = tk.StringVar()
 		self.passwordVar = tk.StringVar()
 
-		topWin = tk.Toplevel(self.RootWin, bg="#73ebe1", bd=5)
-		topWin.title("DataBase connectivity")
 
-		hostLabel = tk.Label(topWin, text=" Host Name : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
-		hostLabel.grid(row=0, column=0, padx=20, pady=5)
-		hostEntry = tk.Entry(topWin, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.hostNameVar)
+	def useInfo(self):
+
+		accessDB = ShowDBFrame()
+		#"localhost", "root", "kunal9922soni"
+		accessDB.InfoInput(self.topWin, self.hostNameVar, self.userNameVar, self.passwordVar)
+		print(self.hostNameVar, " : ", self.userNameVar, " : ", self.passwordVar)
+		accessDB.DBFrame()
+
+	def gui_db_connect(self):
+
+		self.topWin = tk.Toplevel(self.RootWin, bg="#73ebe1", bd=5)
+		self.topWin.title("DataBase connectivity")
+
+		hostLabel = tk.Label(self.topWin, text=" Host Name : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
+		hostLabel.grid(row=0, column=0, padx=5, pady=5)
+		hostEntry = tk.Entry(self.topWin, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.hostNameVar)
 		hostEntry.grid(row=0, column=1, padx=5, pady=5)
 
-		userNameLabel = tk.Label(topWin, text=" User Name : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
-		userNameLabel.grid(row=1, column=0, padx=20, pady=5)
-		userEntry = tk.Entry(topWin, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.userNameVar)
+		userNameLabel = tk.Label(self.topWin, text=" User Name : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
+		userNameLabel.grid(row=1, column=0, padx=5, pady=5)
+		userEntry = tk.Entry(self.topWin, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.userNameVar)
 		userEntry.grid(row=1, column=1, padx=5, pady=5)
 
-		passwdLabel = tk.Label(topWin, text=" PassWord : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
-		passwdLabel.grid(row=2, column=0, padx=20, pady=5)
-		userEntry = tk.Entry(topWin, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.passwordVar, show="*")
+		passwdLabel = tk.Label(self.topWin, text=" PassWord : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
+		passwdLabel.grid(row=2, column=0, padx=5, pady=5)
+		userEntry = tk.Entry(self.topWin, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.passwordVar, show="*")
 		userEntry.grid(row=2, column=1, padx=5, pady=5)
 
-		#	hostName = tk.Label(topWin, text=" DB Name : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
-		#hostName.grid(row=3, column=0, padx=20, pady=10)
+		processBtn = tk.Button(self.topWin, text="GO", font= ("Consolas", 15, "bold"), bg="#5eff6c", fg="black", height=5, command=self.useInfo)
+		processBtn.grid(row=0, column=3, rowspan=3)
 
-		dbFrame = ShowDBFrame(rootWin=topWin)
-		dbFrame.DBFrame()
+
+
 
 
 
