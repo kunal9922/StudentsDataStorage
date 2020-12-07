@@ -4,7 +4,12 @@ from tkinter import messagebox
 class ShowDBFrame():
 	def InfoInput(self, rootWin, hostName, userName, password):
 		self.DB = DBconnect.DB_connect(hostName, userName, password)
-		self.rootWin = rootWin
+		if self.DB.isConnectDB == True:
+			self.rootWin = rootWin
+			self.DBFrame()
+		else:
+			messagebox.showerror("Input Entry Error", "Please Enter correct login Entries")
+
 
 
 	def getfoucs(self, event):
@@ -148,10 +153,8 @@ class GUI_project(ShowDBFrame):
 	def useInfo(self):
 
 		accessDB = ShowDBFrame()
-		#"localhost", "root", "kunal9922soni"
 		accessDB.InfoInput(self.topWin, self.hostNameVar.get(), self.userNameVar.get(), self.passwordVar.get())
 		print(self.hostNameVar.get(), " : ", self.userNameVar.get(), " : ", self.passwordVar.get())
-		accessDB.DBFrame()
 
 	def gui_db_connect(self):
 
