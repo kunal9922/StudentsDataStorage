@@ -3,6 +3,7 @@ import DBconnect
 from tkinter import messagebox
 from student import StudentManagementSystem
 class ShowDBFrame():
+	count = 0 # count no. of studentEXE frame created
 	def InfoInput(self, rootWin, hostName, userName, password):
 		self.DB = DBconnect.DB_connect(hostName, userName, password)
 		if self.DB.isConnectDB == True:
@@ -86,9 +87,14 @@ class ShowDBFrame():
 	def useExistsTable(self):
 		print("Tables is selecteed = ", self.tablevar.get())
 		self.DB.table = self.tablevar.get()
-		print("DB table selected = ",self.DB.table)
+		print("DB table selected = ", self.DB.table)
 		nextWin = tk.Toplevel(self.rootWin)
-		stdEXE = StudentManagementSystem(nextWin, self.DB)
+		self.stdEXE = []
+		self.stdEXE.append(StudentManagementSystem(nextWin, self.DB))
+		#self.studentEXEObjs = []
+		#self.studentEXEObjs.append(stdEXE+self.count)
+		self.stdEXE[-1].studRecordExe()
+		#self.studentEXEObjs[-1].studRecordExe()
 
 	def createTable(self):
 		print(self.tablevar.get())

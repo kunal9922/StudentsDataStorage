@@ -21,7 +21,7 @@ class DB_connect():
 	def addIntoDB(self, items: tuple):
 		'''Rollnum, Name, contact, Email, Gender, DOB, Address'''
 		#query to insert into DB table
-		sqlQuery = "INSERT INTO stdrecord values(%s, %s, %s, %s, %s, %s, %s )"
+		sqlQuery = f"INSERT INTO {self.table} values(%s, %s, %s, %s, %s, %s, %s )"
 
 		try:
 			self.cursor.execute(sqlQuery, items)

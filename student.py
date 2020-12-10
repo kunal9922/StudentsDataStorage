@@ -18,12 +18,8 @@ class StudentManagementSystem:
 		self.root.geometry(f'{self.screenWidth}x{self.screenHeight}+0+0')
 		# before that of project will start so we take user id and password for database connectivity
 
-
-
 		# DataBase connectivity
 		self.DB = DBObj
-
-		self.studRecordExe()
 
 	def studRecordExe(self):
 
@@ -174,14 +170,16 @@ class StudentManagementSystem:
 		contents = self.studentRecordTable.item(cursorFocusRow)
 		row = contents["values"]
 		# show the values of where the cursor will hover on the studentRecordTable
-		self.RollNum_var.set(row[0])
-		self.Name_var.set(row[1])
-		self.contact_var.set(row[2])
-		self.EmailAdd_var.set(row[3])
-		self.Gender_var.set(row[4])
-		self.DOB_var.set(row[5])
-		self.txt_address.delete("1.0", END)
-		self.txt_address.insert("1.0", row[6])
+		print(row)
+		if len(row) != 0:
+			self.RollNum_var.set(row[0])
+			self.Name_var.set(row[1])
+			self.contact_var.set(row[2])
+			self.EmailAdd_var.set(row[3])
+			self.Gender_var.set(row[4])
+			self.DOB_var.set(row[5])
+			self.txt_address.delete("1.0", END)
+			self.txt_address.insert("1.0", row[6])
 		#print(row)
 
 	def updateData(self):
