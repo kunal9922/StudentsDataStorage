@@ -33,19 +33,20 @@ class DB_connect():
 			return False
 
 	def gettingData(self):
-		sqlQuery = "SELECT * FROM stdrecord"  # getting all attribute from Table
+		sqlQuery = f"SELECT * FROM {self.table}"  # getting all attribute from Table
+		print(sqlQuery)
 		self.cursor.execute(sqlQuery)
 		rows = self.cursor.fetchall()
 		return rows
 
 	def updateData(self, items: tuple):
-		sqlQuery = "UPDATE stdrecord SET RollNum=%s, Name=%s, Contact=%s, Email=%s, Gender=%s, DOB=%s, Adress=%s WHERE RollNum=%s"
+		sqlQuery = f"UPDATE {self.table} SET RollNum=%s, Name=%s, Contact=%s, Email=%s, Gender=%s, DOB=%s, Adress=%s WHERE RollNum=%s"
 		self.cursor.execute(sqlQuery, items)
 		self.mydb.commit()
 
 	def deleteData(self, key: int):
 
-		sqlQuery = "DELETE FROM stdrecord WHERE RollNum=%s"
+		sqlQuery = f"DELETE FROM {self.table} WHERE RollNum=%s"
 		self.cursor.execute(sqlQuery, key)
 		self.mydb.commit()
 

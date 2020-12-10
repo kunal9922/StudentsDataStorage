@@ -1,6 +1,7 @@
 import tkinter as tk
 import DBconnect
 from tkinter import messagebox
+from student import StudentManagementSystem
 class ShowDBFrame():
 	def InfoInput(self, rootWin, hostName, userName, password):
 		self.DB = DBconnect.DB_connect(hostName, userName, password)
@@ -25,7 +26,7 @@ class ShowDBFrame():
 	def createdb(self):
 		print(self.dbvartxt.get())
 		self.DB.createDB(self.dbvartxt.get())
-		listofDBs = self.DB.showDBs()
+		listofDBs = self.DB.shows("DATABASES")
 
 		# fill rows of Available databases
 		for dbName in listofDBs:
@@ -85,6 +86,9 @@ class ShowDBFrame():
 	def useExistsTable(self):
 		print("Tables is selecteed = ", self.tablevar.get())
 		self.DB.table = self.tablevar.get()
+		print("DB table selected = ",self.DB.table)
+		nextWin = tk.Toplevel(self.rootWin)
+		stdEXE = StudentManagementSystem(nextWin, self.DB)
 
 	def createTable(self):
 		print(self.tablevar.get())
@@ -158,7 +162,7 @@ class GUI_project(ShowDBFrame):
 
 	def gui_db_connect(self):
 
-		self.topWin = tk.Toplevel(self.RootWin, bg="#73ebe1", bd=5)
+		self.topWin = self.RootWin
 		self.topWin.title("DataBase connectivity")
 
 		hostLabel = tk.Label(self.topWin, text=" Host Name : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
