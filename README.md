@@ -22,3 +22,7 @@ GUI look like.
 ## First user interaction 
 
 <img src="Images\firstUserUI.png">
+
+## Main Frame of Student Data Record
+
+<img src="Images\StudentRecord_Frame.png">
