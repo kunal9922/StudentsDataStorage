@@ -1,8 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
-import DBconnect
-#from GUI import GUI_project
 
 class StudentManagementSystem:
 	def __init__(self, root, DBObj):
@@ -84,6 +82,21 @@ class StudentManagementSystem:
 		self.updatebtn = Button(btnFrame, text="Update", width=10, font=("Consolas", 10, "bold"), command=self.updateData).grid(row=0, column=2, padx=10, pady=10)
 		self.clearbtn = Button(btnFrame, text="Clear", width=10, font=("Consolas", 10, "bold"), command=self.clearData).grid(row=0, column=3, padx=10, pady=10)
 
+		#================ showing information about UserName , DATABASE name,  Table Name==========
+		DBInfoFrame= LabelFrame(self.root, relief="ridge", bg="#f22245")
+		DBInfoFrame.place(x=30, y=680)
+		usrNameTitle = Label(DBInfoFrame, text="User Name : ", font=("Consolas", 15, "bold"), bg="#f22245", fg="#ffffff")
+		usrNameTitle.grid(row=0, column=0)
+		usrnameLable = Label(DBInfoFrame, text=f"{self.DB.userName}, ", font=("Consolas", 15, "bold"), bg="#f22245",  fg="#ffffff")
+		usrnameLable.grid(row=0, column=1)
+		DBnameTitle = Label(DBInfoFrame, text="DataBase : ", font=("Consolas", 15, "bold"), bg="#f22245", fg="#ffffff")
+		DBnameTitle.grid(row=0, column=2)
+		DBnameLable = Label(DBInfoFrame, text=f"{self.DB.database}, ", font=("Consolas", 15, "bold"), bg="#f22245", fg="#ffffff")
+		DBnameLable.grid(row=0, column=3)
+		tablenameLable = Label(DBInfoFrame, text="Table : ", font=("Consolas", 15, "bold"), bg="#f22245", fg="#ffffff")
+		tablenameLable.grid(row=0, column=4)
+		tableNameLable = Label(DBInfoFrame, text=f"{self.DB.table}", font=("Consolas", 15, "bold"), bg="#f22245", fg="#ffffff")
+		tableNameLable.grid(row=0, column=5)
 
 		# ============== Record Showing Frame ================
 				# This frame contain list box where  values will shows.
@@ -206,7 +219,7 @@ class StudentManagementSystem:
 		elif self.searchTxt.get() == "":
 			messagebox.showerror("Error", "Insert into text field. which you want to search")
 		else:
-			query = f"SELECT * FROM  WHERE {self.DB.table}"+str(self.searchBy.get())+" LIKE '%"+str(self.searchTxt.get())+"%'"
+			query = f"SELECT * FROM  WHERE {self.DB.table} "+str(self.searchBy.get())+" LIKE '%"+str(self.searchTxt.get())+"%'"
 			print(query)
 			rows = self.DB.searchByFetch(query)
 			if len(rows) != 0:  # data is update in a table so we need to show new data that's why we delete data in a treeView

@@ -7,4 +7,3 @@ if __name__ == "__main__":
 	gui = GUI_project(win)
 	gui.gui_db_connect()
 	win.mainloop()
-	print("Main table = ", gui.tablevar.get())

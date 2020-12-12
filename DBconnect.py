@@ -46,8 +46,9 @@ class DB_connect():
 
 	def deleteData(self, key: int):
 
-		sqlQuery = f"DELETE FROM {self.table} WHERE RollNum=%s"
-		self.cursor.execute(sqlQuery, key)
+		sqlQuery = f"DELETE FROM {self.table} WHERE RollNum={key}"
+		print(sqlQuery)
+		self.cursor.execute(sqlQuery)
 		self.mydb.commit()
 
 	def searchByFetch(self, sqlQuery):
