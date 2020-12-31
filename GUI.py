@@ -5,6 +5,12 @@ from student import StudentManagementSystem
 class ShowDBFrame():
 	count = 0 # count no. of studentEXE frame created
 	def InfoInput(self, rootWin, hostName, userName, password):
+
+		# storing user login info for futher uses
+		self.hostName = hostName
+		self.userName = userName
+		self.passwrd = password
+
 		self.DB = DBconnect.DB_connect(hostName, userName, password)
 		if self.DB.isConnectDB == True:
 			self.rootWin = rootWin
@@ -85,16 +91,24 @@ class ShowDBFrame():
 			pass
 
 	def useExistsTable(self):
+		# this method choosing while table will we use
 		print("Tables is selecteed = ", self.tablevar.get())
+		self.dbObjs = [] # list which contains DATABASE OBJECTS
+		# new connection agian for new table because if user use new login info so new connection for that
+		self.dbObjs.append(DBconnect.DB_connect(hostName=self.hostName, userName=self.userName, passsword=self.passwrd))
+		self.dbObjs[-1].table = self.tablevar.get() # set table
+		self.dbObjs[-1].database = self.dbvartxt.get() # set data base
 		self.DB.table = self.tablevar.get()
+		self.dbObjs[-1].useOtherDB()
 		print("DB table selected = ", self.DB.table)
-		nextWin = tk.Toplevel(self.rootWin)
-		self.stdEXE = []
-		self.stdEXE.append(StudentManagementSystem(nextWin, self.DB))
-		#self.studentEXEObjs = []
-		#self.studentEXEObjs.append(stdEXE+self.count)
+		self.nextWin = [] # store indiviual windows according to it
+		self.nextWin.append(tk.Toplevel(self.rootWin))
+		self.stdEXE = []  # student software object stores for indivisual database
+
+		# =================== main Studented record software works ========================
+		self.stdEXE.append(StudentManagementSystem(self.nextWin[-1], self.dbObjs[-1]))
+		#========call
 		self.stdEXE[-1].studRecordExe()
-		#self.studentEXEObjs[-1].studRecordExe()
 
 	def createTable(self):
 		print(self.tablevar.get())
@@ -162,6 +176,7 @@ class GUI_project(ShowDBFrame):
 
 	def useInfo(self):
 
+		#============= GUI frame which shows the DATABASE and Table INFO which are present on MYSQL DATABASE
 		accessDB = ShowDBFrame()
 		accessDB.InfoInput(self.topWin, self.hostNameVar.get(), self.userNameVar.get(), self.passwordVar.get())
 		print(self.hostNameVar.get(), " : ", self.userNameVar.get(), " : ", self.passwordVar.get())

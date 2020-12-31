@@ -196,8 +196,8 @@ class StudentManagementSystem:
 		#print(row)
 
 	def updateData(self):
-		data = (self.RollNum_var.get(), self.Name_var.get(), self.contact_var.get(),
-		        self.EmailAdd_var.get(), self.Gender_var.get(), self.DOB_var.get(), self.txt_address.get("1.0", END), self.RollNum_var.get())
+		data = (self.RollNum_var.get(), self.Name_var.get(), self.contact_var.get(), self.EmailAdd_var.get(), self.Gender_var.get(),
+		        self.DOB_var.get(), self.txt_address.get("1.0", END), self.RollNum_var.get())
 
 		self.DB.updateData(data)
 		# when any update happen so update our treeView
@@ -206,8 +206,11 @@ class StudentManagementSystem:
 		self.clearData()
 
 	def deleteInfo(self):
-		keyRoll = self.RollNum_var.get()
-		self.DB.deleteData(key=keyRoll)
+		try:
+			keyRoll = self.RollNum_var.get()
+			self.DB.deleteData(key=keyRoll)
+		except:
+			messagebox.showerror("Roll Number Field", "Please Enter Roll Number")
 		# when any update happen so update our treeView
 		self.fetchData()
 		# And clear our text box for again put new data

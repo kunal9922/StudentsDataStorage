@@ -2,7 +2,7 @@ import mysql.connector
 
 
 class DB_connect():
-	database="do"
+	database=""
 	table = ""
 	isConnectDB = bool()
 	def __init__(self, hostName, userName, passsword):
