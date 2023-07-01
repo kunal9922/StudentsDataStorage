@@ -21,9 +21,8 @@ GUI look like.
 Table Student
 1. Rollnum INT PRIMARY KEY
 2. Name VARCHAR(20)
-3. Class VARCHAR(10)
-4. Ids INT 
-    FOREIGN KEY(Ids) REFRENCES Basic(Id)
+3. Ids INT 
+    FOREIGN KEY(Ids) REFRENCES Basic(Ids)
 
 Table Basic
 1. Ids INT PRIMARY KEY
