@@ -11,13 +11,29 @@ GUI look like.
 6. DOB varchar(10).
 7. Address varchar(80).
 
-<img src="Images\GUIscreenShort.png" alt="&quot;&quot;" style="zoom:50%;" />
-
 
 
 ## Schema design in database 
 
 <img src="Images\schemaDesign.png">
+
+## Updated Schema
+Table Student
+1. Rollnum INT PRIMARY KEY
+2. Name VARCHAR(20)
+3. Class VARCHAR(10)
+4. Ids INT 
+    FOREIGN KEY(Ids) REFRENCES Basic(Id)
+
+Table Basic
+1. Ids INT PRIMARY KEY
+2. Address VARCHAR(20)
+3. Gender VARCHAR(10)
+4. Contact VARCHAR(13)
+5. DOB DATE
+
+## ER Diagram
+<img src="Images\ER_studentRecords.png">
 
 ## First user interaction 
 
