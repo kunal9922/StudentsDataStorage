@@ -1,6 +1,6 @@
 from GUI import GUI_project
 import tkinter as tk
-from student import  StudentManagementSystem
+from student import StudentManagementSystem
 if __name__ == "__main__":
 	win = tk.Tk()
 	win.configure(bg="#73ebe1")
