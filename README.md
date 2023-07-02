@@ -1,39 +1,30 @@
-# StudentDataStorage
-this is a python based and sql database project to manage and stores students data
-
-GUI look like.
-
-1. have RollNumber field which have length to DB is 12 of type INTEGER and PRIMARY FIELD.
-2. Name field varchar(30). name of student.
-3. Contact  varchar(10). store contact number.
-4. Email varchar(40). to store valid email address
-5. .Gender is drop list. but in DB store varchar(10).
-6. DOB varchar(10).
-7. Address varchar(80).
+# Students Record Management System.
+•	Developed a student record management system using Python for front-end and API, and MySQL Database for record storage.
+•	Created an intuitive user interface for adding, editing, and deleting student records. Implemented features such as search and filtering to make it easy to find specific records.
+•	Improved data security by implementing user authentication and access control.
 
 
+## ER Diagram
+<img src="Images\updatedERDiagram.png">
 
 ## Schema design in database 
-
-<img src="Images\schemaDesign.png">
+<img src="Images\UpdatedSchema1.png">
+<img src="Images\UpdatedSchema2.png">
 
 ## Updated Schema
 Table Student
-1. Rollnum INT PRIMARY KEY
-2. Name VARCHAR(20)
-3. Email VARCHAR(30)
-4. Ids INT 
-    FOREIGN KEY(Ids) REFRENCES Basic(Ids)
+1. rollnum INT PRIMARY KEY
+2. nameStudent VARCHAR(20)
+3. email VARCHAR(30)
+4. id INT 
+    FOREIGN KEY(id) REFRENCES Basic(id)
 
 Table Basic
-1. Ids INT PRIMARY KEY
-2. Address VARCHAR(20)
-3. Gender VARCHAR(10)
-4. Contact VARCHAR(13)
-5. DOB DATE
-
-## ER Diagram
-<img src="Images\ER_studentRecords.png">
+1. id INT PRIMARY KEY
+2. gender VARCHAR(20)
+3. contact VARCHAR(15)
+4. dob DATE
+5. address VARCHAR(30)
 
 ## First user interaction 
 

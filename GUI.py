@@ -4,6 +4,12 @@ import DBconnect
 from tkinter import messagebox
 from student import StudentManagementSystem
 class ShowDBFrame():
+	def __init__(self):
+		self.hostName = ""
+		self.userName = ""
+		self.passwrd = ""
+		self.DB = None
+
 	count = 0 # count no. of studentEXE frame created
 	def InfoInput(self, rootWin, hostName, userName, password):
 
@@ -149,7 +155,7 @@ class ShowDBFrame():
 		tableNameEntry.grid(row=2, column=0, padx=5, pady=5, columnspan=2)
 		usetablebtn = tk.Button(self.lableTableframe, font=("Consolas", 15, "bold"), text="Use Table", command=self.useExistsTable).grid(row=3,
 		                                                                                                 column=0,
-		                                                                                                 padx=5, pady=5)
+                                                                                   padx=5, pady=5)
 		createtablebtn = tk.Button(self.lableTableframe, font=("Consolas", 15, "bold"), text="Create Table", command=self.createTable).grid(row=3,
 		                                                                                                       column=1,
 		                                                                                                       padx=5,
@@ -169,6 +175,7 @@ class GUI_project(ShowDBFrame):
 
 	def __init__(self, RootWin):
 		# toplevel window for connectivity to database
+		super().__init__()  # Call the __init__ method of the parent class.
 		self.RootWin = RootWin
 		self.hostNameVar = tk.StringVar()
 		self.userNameVar = tk.StringVar()
@@ -239,8 +246,3 @@ class GUI_project(ShowDBFrame):
 		self.topWin.option_add("*Entry.Width", input_width)
 		self.topWin.option_add("*Button.Width", button_width)
 		self.topWin.option_add("*Button.Height", button_height)
-
-
-
-
-
