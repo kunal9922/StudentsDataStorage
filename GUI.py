@@ -211,38 +211,3 @@ class GUI_project(ShowDBFrame):
 
 		processBtn = tk.Button(self.topWin, text="GO", font= ("Consolas", 15, "bold"), bg="#5eff6c", fg="black", height=5, command=self.useInfo)
 		processBtn.grid(row=0, column=3, rowspan=3)
-
-		# Configure column and row weights to make the window resizable
-		self.topWin.columnconfigure(0, weight=1)
-		self.topWin.columnconfigure(1, weight=1)
-		self.topWin.columnconfigure(2, weight=1)
-		self.topWin.columnconfigure(3, weight=1)
-		self.topWin.rowconfigure(0, weight=1)
-		self.topWin.rowconfigure(1, weight=1)
-		self.topWin.rowconfigure(2, weight=1)
-
-		# Bind the <Configure> event to update font and size properties
-		self.topWin.bind("<Configure>", self.update_ui)
-	
-        # Start the main loop
-		self.topWin.mainloop()
-
-	def update_ui(self, event):
-        # Get the current width and height of the window
-		width = event.width
-		height = event.height
-
-		# Calculate the new font size and size for input boxes and buttons
-		font_size = max(int(min(width, height) / 30), 10)
-		input_width = max(int(width / 30), 10)
-		button_width = max(int(width / 60), 10)
-		button_height = max(int(height / 20), 10)
-
-		# Create a custom font with the calculated size
-		custom_font = Font(family="TkDefaultFont", size=font_size)
-
-		# Update the font size and size properties of widgets
-		self.topWin.option_add("*Font", custom_font)
-		self.topWin.option_add("*Entry.Width", input_width)
-		self.topWin.option_add("*Button.Width", button_width)
-		self.topWin.option_add("*Button.Height", button_height)
