@@ -10,7 +10,7 @@ class ShowDBFrame():
 		self.passwrd = ""
 		self.DB = None
 
-	count = 0 # count no. of studentEXE frame created
+	count = 1 # count no. of studentEXE frame created
 	def InfoInput(self, rootWin, hostName, userName, password):
 
 		# storing user login info for futher uses
@@ -41,7 +41,7 @@ class ShowDBFrame():
 		print(self.dbvartxt.get())
 		self.DB.createDB(self.dbvartxt.get())
 		listofDBs = self.DB.shows("DATABASES")
-
+		self.listDBs.delete(0, tk.END)  # Delete all items from index 0 to the end
 		# fill rows of Available databases
 		for dbName in listofDBs:
 			self.listDBs.insert(tk.END, dbName)
@@ -51,6 +51,14 @@ class ShowDBFrame():
 		print(self.dbvartxt.get())
 		self.DB.useOtherDB()
 		self.tableFrame()
+	
+	def deleteDatabase(self):
+		self.DB.deleteDB(self.dbvartxt.get())
+		listofDBs = self.DB.shows("DATABASES")
+		self.listDBs.delete(0, tk.END)  # Delete all items from index 0 to the end
+		# fill rows of Available databases
+		for dbName in listofDBs:
+			self.listDBs.insert(tk.END, dbName)
 
 	def DBFrame(self):
 		self.lableDBframe = tk.LabelFrame(self.rootWin, text="DataBase Entry", font=("Time Roman", 20, "bold"), bd=3, relief="ridge", bg="#73ebe1")
@@ -77,10 +85,12 @@ class ShowDBFrame():
 		dbNameEntry.grid(row=2, column=0, padx=5, pady=5, columnspan=2)
 		useDBbtn = tk.Button(self.lableDBframe, font=("Consolas", 15, "bold"), text="Use DB", command=self.useExistsDB).grid(row=3, column=0, padx=5, pady=5)
 		createDBbtn = tk.Button(self.lableDBframe, font=("Consolas", 15, "bold"), text="Create DB",  command=self.createdb).grid(row=3, column=1, padx=5, pady=5)
+		deleteDBBtn = tk.Button(self.lableDBframe, font=("Consolas", 15, "bold"), text="Delete DB",  command=self.deleteDatabase).grid(row=4, column=0, columnspan=2, padx=5, pady=5) # Combine columns 0 and 1 for the button
 
 		# insert result to it's list boxes
 		self.DB.database = self.dbvartxt.get()
 		listofDBs = self.DB.shows("DATABASES")
+		self.listDBs.delete(0, tk.END)  # Delete all items from index 0 to the end
 		# fill rows of Available databases
 		for dbName in listofDBs:
 			self.listDBs.insert(tk.END, dbName)
@@ -126,6 +136,14 @@ class ShowDBFrame():
 		# fill rows of Available databases
 		for table in listTables:
 			self.listTables.insert(tk.END, table)
+	
+	def deleteTable(self):
+		self.DB.deleteTable(self.tablevar.get())
+		listofTables = self.DB.shows("TABLES")
+		self.listTables.delete(0, tk.END)  # Delete all OLD entries from index 0 to the end
+		# fill rows of Available databases
+		for tableName in listofTables:
+			self.listTables.insert(tk.END, tableName)
 
 	def tableFrame(self):
 		self.lableTableframe = tk.LabelFrame(self.rootWin, text="Tables Entry", font=("Time Roman", 20, "bold"), bd=3,
@@ -160,7 +178,9 @@ class ShowDBFrame():
 		                                                                                                       column=1,
 		                                                                                                       padx=5,
 		                                                                                                       pady=5)
+		deleteTableBtn = tk.Button(self.lableTableframe, font=("Consolas", 15, "bold"), text="Delete Table",  command=self.deleteTable).grid(row=4, column=0, columnspan=2, padx=5, pady=5) # Combine columns 0 and 1 for the button
 
+		self.listTables.delete(0, tk.END)  # Delete all Old entries from index 0 to the end
 		# insert result to it's list boxes
 		Tables = self.DB.showTables()
 		# fill rows of Available databases
@@ -187,7 +207,6 @@ class GUI_project(ShowDBFrame):
 		#============= GUI frame which shows the DATABASE and Table INFO which are present on MYSQL DATABASE
 		accessDB = ShowDBFrame()
 		accessDB.InfoInput(self.topWin, self.hostNameVar.get(), self.userNameVar.get(), self.passwordVar.get())
-		print(self.hostNameVar.get(), " : ", self.userNameVar.get(), " : ", self.passwordVar.get())
 
 	def gui_db_connect(self):
 
