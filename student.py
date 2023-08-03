@@ -236,7 +236,7 @@ class StudentManagementSystem:
 		elif self.searchTxt.get() == "":
 			messagebox.showerror("Error", "Insert into text field. which you want to search")
 		else:
-			query = f"SELECT * FROM  WHERE {self.DB.table} "+str(self.searchBy.get())+" LIKE '%"+str(self.searchTxt.get())+"%'"
+			query = f"SELECT * FROM {self.DB.table} WHERE {str(self.searchBy.get())} LIKE '%{str(self.searchTxt.get())}%'"
 			print(query)
 			rows = self.DB.searchByFetch(query)
 			if len(rows) != 0:  # data is update in a table so we need to show new data that's why we delete data in a treeView
