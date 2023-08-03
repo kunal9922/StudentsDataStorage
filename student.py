@@ -36,46 +36,60 @@ class StudentManagementSystem:
 				# This frame contain txt box where  values will insert
 		manageFrame = LabelFrame(self.root, text="Manage Data", font=("Time Roman", 20, "bold"), bd=4, fg='Black', bg="#ff9933")
 		manageFrame.place(x=30, y=70, width=460, height=600)
+		# Create a Canvas inside the LabelFrame
+		canvas = Canvas(manageFrame, bg="#ff9933", highlightthickness=0)
+		canvas.pack(side="left", fill="both", expand=True)
 
-		lbl_roll = Label(manageFrame, text="Roll No : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
+		# Create a Scrollbar and attach it to the Canvas
+		scrollbar = Scrollbar(manageFrame, orient="vertical", command=canvas.yview)
+		scrollbar.pack(side="right", fill="y")
+
+		canvas.configure(yscrollcommand=scrollbar.set)
+		canvas.bind("<Configure>", lambda event : canvas.configure(scrollregion=canvas.bbox("all")))
+
+		 # Put your content inside the Canvas
+		content_frame = Frame(canvas, bg="#ff9933")
+		canvas.create_window((0, 0), window=content_frame, anchor="nw")
+
+		lbl_roll = Label(content_frame, text="Roll No : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
 		lbl_roll.grid(row=0, column=0, padx=10, pady=10, sticky="w")
-		txt_roll = Entry(manageFrame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.RollNum_var)
+		txt_roll = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.RollNum_var)
 		txt_roll.grid(row=0, column=1, padx=10, pady=10, sticky="w")
 
-		lbl_Name = Label(manageFrame, text="Name : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
+		lbl_Name = Label(content_frame, text="Name : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
 		lbl_Name.grid(row=1, column=0, padx=10, pady=10, sticky="w")
-		txt_Name = Entry(manageFrame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.Name_var)
+		txt_Name = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.Name_var)
 		txt_Name.grid(row=1, column=1, padx=10, pady=10, sticky="w")
 
-		lbl_Contact = Label(manageFrame, text="Contact : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
+		lbl_Contact = Label(content_frame, text="Contact : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
 		lbl_Contact.grid(row=2, column=0, padx=10, pady=10, sticky="w")
-		txt_Contact = Entry(manageFrame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.contact_var)
+		txt_Contact = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.contact_var)
 		txt_Contact.grid(row=2, column=1, padx=10, pady=10, sticky="w")
 
-		lbl_Email = Label(manageFrame, text="Email : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
+		lbl_Email = Label(content_frame, text="Email : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
 		lbl_Email.grid(row=3, column=0, padx=10, pady=10, sticky="w")
-		txt_Email = Entry(manageFrame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.EmailAdd_var)
+		txt_Email = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.EmailAdd_var)
 		txt_Email.grid(row=3, column=1, padx=10, pady=10, sticky="w")
 
-		lbl_gender = Label(manageFrame, text="Gender : ", font=("Consolas", 18, "bold"), fg="#adfc03", bg="#ff9933")
+		lbl_gender = Label(content_frame, text="Gender : ", font=("Consolas", 18, "bold"), fg="#adfc03", bg="#ff9933")
 		lbl_gender.grid(row=4, column=0, padx=10, pady=10, sticky="w")
-		com_gen = ttk.Combobox(manageFrame, font=("Consolas", 18, "bold"), state="readonly", textvariable=self.Gender_var)
+		com_gen = ttk.Combobox(content_frame, font=("Consolas", 18, "bold"), state="readonly", textvariable=self.Gender_var)
 		com_gen["values"] = ("Male", "Female", "Other")
 		com_gen.grid(row=4, column=1, padx=10, pady=10)
 
-		lbl_dob = Label(manageFrame, text="D.O.B :", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
+		lbl_dob = Label(content_frame, text="D.O.B :", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
 		lbl_dob.grid(row=5, column=0, padx=10, pady=10, sticky="w")
-		txt_dob = Entry(manageFrame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.DOB_var)
+		txt_dob = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.DOB_var)
 		txt_dob.grid(row=5, column=1, padx=10, pady=10, sticky="w")
 
-		lbl_address = Label(manageFrame, text="Address : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
+		lbl_address = Label(content_frame, text="Address : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
 		lbl_address.grid(row=6, column=0, padx=10, pady=10, sticky="w")
-		self.txt_address = Text(manageFrame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, height=5)
+		self.txt_address = Text(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, height=5)
 		self.txt_address.grid(row=6, column=1, padx=10, pady=10, sticky="w")
 
 		#========== button frame ==========
-		btnFrame = LabelFrame(manageFrame, bd=6, relief ="solid", fg='Black', bg="#7bfc03")
-		btnFrame.place(x=10, y=500, width=430)
+		btnFrame = LabelFrame(canvas, bd=6, relief ="solid", fg='Black', bg="#7bfc03")
+		btnFrame.place(x=10, y=500, width=420)
 
 		self.addbtn = Button(btnFrame, text="Add", width=10, font=("Consolas", 10, "bold"), command=self.insert).grid(row=0,column=0, padx=10,pady=10)
 		self.deletebtn = Button(btnFrame, text="Delete", width=10, font=("Consolas", 10, "bold"), command=self.deleteInfo).grid(row=0, column=1, padx=10, pady=10)
