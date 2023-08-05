@@ -190,9 +190,7 @@ class ShowDBFrame():
 		self.listTables.bind("<<ListboxSelect>>", self.getfoucstable)
 
 
-class GUI_project(ShowDBFrame):
-
-
+class AuthenticWindow(ShowDBFrame):
 	def __init__(self, RootWin):
 		# toplevel window for connectivity to database
 		super().__init__()  # Call the __init__ method of the parent class.

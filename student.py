@@ -6,6 +6,8 @@ class StudentManagementSystem:
 	def __init__(self, root, DBObj):
 		self.root = root
 		self.root.config(bg="#f22245")
+		# Set the icon
+		self.root.iconbitmap(r'StudentDataStorage\Images\StudentDataStorageIcon.ico')
 		title = Label(self.root, text="Student Management System", bd=5, relief="groove", font=("Cambria", 32, "bold"), bg="yellow", fg="red")
 		title.pack(side=TOP, fill=X)
 		self.root.title("Student Management System")

@@ -1,9 +1,12 @@
-from GUI import GUI_project
+from authentication import AuthenticWindow
 import tkinter as tk
-from student import StudentManagementSystem
+
 if __name__ == "__main__":
+	# Create the main window
 	win = tk.Tk()
 	win.configure(bg="#73ebe1")
-	gui = GUI_project(win)
+	# Set the icon
+	win.iconbitmap(r'StudentDataStorage\Images\StudentDataStorageIcon.ico')
+	gui = AuthenticWindow(win)
 	gui.gui_db_connect()
 	win.mainloop()
