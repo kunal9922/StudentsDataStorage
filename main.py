@@ -6,7 +6,7 @@ if __name__ == "__main__":
 	win = tk.Tk()
 	win.configure(bg="#73ebe1")
 	# Set the icon
-	win.iconbitmap(r'StudentDataStorage\Images\StudentDataStorageIcon.ico')
+	win.iconbitmap(r'Images\StudentDataStorageIcon.ico')
 	gui = AuthenticWindow(win)
 	gui.gui_db_connect()
 	win.mainloop()

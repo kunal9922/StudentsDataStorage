@@ -7,7 +7,7 @@ class StudentManagementSystem:
 		self.root = root
 		self.root.config(bg="#f22245")
 		# Set the icon
-		self.root.iconbitmap(r'StudentDataStorage\Images\StudentDataStorageIcon.ico')
+		self.root.iconbitmap(r'Images\StudentDataStorageIcon.ico')
 		title = Label(self.root, text="Student Management System", bd=5, relief="groove", font=("Cambria", 32, "bold"), bg="yellow", fg="red")
 		title.pack(side=TOP, fill=X)
 		self.root.title("Student Management System")
@@ -24,13 +24,17 @@ class StudentManagementSystem:
 	def studRecordExe(self):
 
 		# ========== All variables which specifies the type of user input from input box from ManageFrame=======
-		self.RollNum_var = IntVar()
-		self.Name_var = StringVar()
+		#Record Table Variables
+		self.rollNum_var = IntVar()
+		self.first_name_var = StringVar()
+		self.last_name_var = StringVar()
+		self.emailAdd_var = StringVar()
+		
+		# Basic Table Variables
+		self.gender_var = StringVar()
 		self.contact_var = StringVar()
-		self.EmailAdd_var = StringVar()
-		self.Gender_var = StringVar()
 		self.DOB_var = StringVar()
-
+		self.txt_address_var = StringVar()
 		self.searchBy = StringVar()
 		self.searchTxt = StringVar()
 
@@ -55,39 +59,44 @@ class StudentManagementSystem:
 
 		lbl_roll = Label(content_frame, text="Roll No : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
 		lbl_roll.grid(row=0, column=0, padx=10, pady=10, sticky="w")
-		txt_roll = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.RollNum_var)
+		txt_roll = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.rollNum_var)
 		txt_roll.grid(row=0, column=1, padx=10, pady=10, sticky="w")
 
-		lbl_Name = Label(content_frame, text="Name : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
-		lbl_Name.grid(row=1, column=0, padx=10, pady=10, sticky="w")
-		txt_Name = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.Name_var)
-		txt_Name.grid(row=1, column=1, padx=10, pady=10, sticky="w")
+		lbl_first_name = Label(content_frame, text="First Name : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
+		lbl_first_name.grid(row=1, column=0, padx=10, pady=10, sticky="w")
+		txt_first_name = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.first_name_var)
+		txt_first_name.grid(row=1, column=1, padx=10, pady=10, sticky="w")
 
-		lbl_Contact = Label(content_frame, text="Contact : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
-		lbl_Contact.grid(row=2, column=0, padx=10, pady=10, sticky="w")
-		txt_Contact = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.contact_var)
-		txt_Contact.grid(row=2, column=1, padx=10, pady=10, sticky="w")
+		lbl_last_name = Label(content_frame, text="Last Name : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
+		lbl_last_name.grid(row=2, column=0, padx=10, pady=10, sticky="w")
+		txt_last_name = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.last_name_var)
+		txt_last_name.grid(row=2, column=1, padx=10, pady=10, sticky="w")
 
-		lbl_Email = Label(content_frame, text="Email : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
-		lbl_Email.grid(row=3, column=0, padx=10, pady=10, sticky="w")
-		txt_Email = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.EmailAdd_var)
-		txt_Email.grid(row=3, column=1, padx=10, pady=10, sticky="w")
-
+		lbl_email = Label(content_frame, text="Email : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
+		lbl_email.grid(row=3, column=0, padx=10, pady=10, sticky="w")
+		txt_email = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.emailAdd_var)
+		txt_email.grid(row=3, column=1, padx=10, pady=10, sticky="w")
+		
 		lbl_gender = Label(content_frame, text="Gender : ", font=("Consolas", 18, "bold"), fg="#adfc03", bg="#ff9933")
 		lbl_gender.grid(row=4, column=0, padx=10, pady=10, sticky="w")
-		com_gen = ttk.Combobox(content_frame, font=("Consolas", 18, "bold"), state="readonly", textvariable=self.Gender_var)
+		com_gen = ttk.Combobox(content_frame, font=("Consolas", 18, "bold"), state="readonly", textvariable=self.gender_var)
 		com_gen["values"] = ("Male", "Female", "Other")
 		com_gen.grid(row=4, column=1, padx=10, pady=10)
 
+		lbl_contact = Label(content_frame, text="Contact : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
+		lbl_contact.grid(row=5, column=0, padx=10, pady=10, sticky="w")
+		txt_contact = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.contact_var)
+		txt_contact.grid(row=5, column=1, padx=10, pady=10, sticky="w")
+
 		lbl_dob = Label(content_frame, text="D.O.B :", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
-		lbl_dob.grid(row=5, column=0, padx=10, pady=10, sticky="w")
+		lbl_dob.grid(row=6, column=0, padx=10, pady=10, sticky="w")
 		txt_dob = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.DOB_var)
-		txt_dob.grid(row=5, column=1, padx=10, pady=10, sticky="w")
+		txt_dob.grid(row=6, column=1, padx=10, pady=10, sticky="w")
 
 		lbl_address = Label(content_frame, text="Address : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
-		lbl_address.grid(row=6, column=0, padx=10, pady=10, sticky="w")
-		self.txt_address = Text(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, height=5)
-		self.txt_address.grid(row=6, column=1, padx=10, pady=10, sticky="w")
+		lbl_address.grid(row=7, column=0, padx=10, pady=10, sticky="w")
+		self.txt_address_var = Text(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, height=5)
+		self.txt_address_var.grid(row=7, column=1, padx=10, pady=10, sticky="w")
 
 		#========== button frame ==========
 		btnFrame = LabelFrame(canvas, bd=6, relief ="solid", fg='Black', bg="#7bfc03")
