@@ -25,10 +25,10 @@ class StudentManagementSystem:
 
 		# ========== All variables which specifies the type of user input from input box from ManageFrame=======
 		#Record Table Variables
-		self.rollNum_var = IntVar()
+		self.rollnum_var = IntVar()
 		self.first_name_var = StringVar()
 		self.last_name_var = StringVar()
-		self.emailAdd_var = StringVar()
+		self.email_add_var = StringVar()
 		
 		# Basic Table Variables
 		self.gender_var = StringVar()
@@ -59,7 +59,7 @@ class StudentManagementSystem:
 
 		lbl_roll = Label(content_frame, text="Roll No : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
 		lbl_roll.grid(row=0, column=0, padx=10, pady=10, sticky="w")
-		txt_roll = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.rollNum_var)
+		txt_roll = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.rollnum_var)
 		txt_roll.grid(row=0, column=1, padx=10, pady=10, sticky="w")
 
 		lbl_first_name = Label(content_frame, text="First Name : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
@@ -74,7 +74,7 @@ class StudentManagementSystem:
 
 		lbl_email = Label(content_frame, text="Email : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
 		lbl_email.grid(row=3, column=0, padx=10, pady=10, sticky="w")
-		txt_email = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.emailAdd_var)
+		txt_email = Entry(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, textvariable=self.email_add_var)
 		txt_email.grid(row=3, column=1, padx=10, pady=10, sticky="w")
 		
 		lbl_gender = Label(content_frame, text="Gender : ", font=("Consolas", 18, "bold"), fg="#adfc03", bg="#ff9933")
@@ -95,8 +95,8 @@ class StudentManagementSystem:
 
 		lbl_address = Label(content_frame, text="Address : ", font=("", 18, "bold"), fg="#adfc03", bg="#ff9933")
 		lbl_address.grid(row=7, column=0, padx=10, pady=10, sticky="w")
-		self.txt_address_var = Text(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, height=5)
-		self.txt_address_var.grid(row=7, column=1, padx=10, pady=10, sticky="w")
+		self.txt_address = Text(content_frame, font=("Consolas", 15, "bold"), bd=2, relief="ridge", width=25, height=5)
+		self.txt_address.grid(row=7, column=1, padx=10, pady=10, sticky="w")
 
 		#========== button frame ==========
 		btnFrame = LabelFrame(canvas, bd=6, relief ="solid", fg='Black', bg="#7bfc03")
@@ -195,11 +195,12 @@ class StudentManagementSystem:
 				self.studentRecordTable.insert('', END, values=row)
 
 	def clearData(self):
-		self.RollNum_var.set("")
-		self.Name_var.set("")
+		self.rollnum_var.set("")
+		self.first_name_var.set("")
+		self.last_name_var.set("")
 		self.contact_var.set("")
-		self.EmailAdd_var.set("")
-		self.Gender_var.set("")
+		self.email_add_var.set("")
+		self.gender_var.set("")
 		self.DOB_var.set("")
 		self.txt_address.delete("1.0", END)
 
