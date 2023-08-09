@@ -148,17 +148,19 @@ class StudentManagementSystem:
 		# ========== showing stored record on this frame ==========
 		scroll_X = Scrollbar(tableFrame, orient=HORIZONTAL)
 		scroll_Y = Scrollbar(tableFrame, orient=VERTICAL)
-		self.studentRecordTable = ttk.Treeview(tableFrame, columns=("roll", "name", "contact", "email", "gender", "dob", "address"), xscrollcommand=scroll_X.set, yscrollcommand=scroll_Y.set)
+		self.studentRecordTable = ttk.Treeview(tableFrame, columns=("roll", "fname","lname", 
+							      "email", "gender", "contact", "dob", "address"), xscrollcommand=scroll_X.set, yscrollcommand=scroll_Y.set)
 		scroll_X.pack(side=BOTTOM, fill=X)
 		scroll_Y.pack(side=RIGHT, fill=Y)
 		scroll_X.config(command=self.studentRecordTable.xview)
 		scroll_Y.config(command=self.studentRecordTable.yview)
-		self.studentRecordTable.heading("roll", text="Roll Num")
-		self.studentRecordTable.heading("name", text="Name")
-		self.studentRecordTable.heading("contact", text="Contact")
+		self.studentRecordTable.heading("roll", text="Roll No.")
+		self.studentRecordTable.heading("fname", text="First Name")
+		self.studentRecordTable.heading("lname", text="Last Name")
 		self.studentRecordTable.heading("email", text="Email")
 		self.studentRecordTable.heading("gender", text="Gender")
-		self.studentRecordTable.heading("dob", text="DateOFBirth")
+		self.studentRecordTable.heading("contact", text="Contact")
+		self.studentRecordTable.heading("dob", text="Date Of Birth")
 		self.studentRecordTable.heading("address", text="Address")
 		self.studentRecordTable["show"] = "headings"
 		self.studentRecordTable.pack(expand=True, fill=BOTH)
@@ -171,18 +173,16 @@ class StudentManagementSystem:
 
 	#====== DataBase operation functions =======
 	def insert(self):
-		data = (self.RollNum_var.get(), self.Name_var.get(), self.contact_var.get(),
-			        self.EmailAdd_var.get(), self.Gender_var.get(), self.DOB_var.get(), self.txt_address.get("1.0", END))
-
-		if self.RollNum_var.get() == '' or self.Name_var.get() == '' :
-			messagebox.showerror("RollNum or Name not inserted", "insert RollNum and Name field is mandatory")
+		# self.data = (self.rollnum_var.get(), self.first_name_var.get(), self.last_name_var.get(), 
+		# 	        self.email_add_var.get(), self.gender_var.get(), self.contact_var.get(), self.DOB_var.get(), self.txt_address.get("1.0", END))
+		self.data = (self.gender_var.get(), self.contact_var.get(), self.DOB_var.get(), self.txt_address.get("1.0", END),
+	       self.rollnum_var.get(), self.first_name_var.get(), self.last_name_var.get(), self.email_add_var.get())
+		if self.rollnum_var.get() == '' or self.first_name_var.get() == '' :
+			messagebox.showerror("RollNum or First Name not inserted", "insert RollNum and First Name field is mandatory")
+		elif InsertDone := self.DB.addIntoDB(self.data):
+			messagebox.showinfo("Insertion", "Insertion is successFully Done")
 		else:
-			InsertDone = self.DB.addIntoDB(data)
-
-			if InsertDone:
-				messagebox.showinfo("Insertion", "Insertion is successFully Done")
-			else:
-				messagebox.showerror("Insertion", f"Insertion is not possible because  Rollno {self.RollNum_var.get()} exist in table")
+			messagebox.showerror("Insertion", f"Insertion is not possible because  Rollno {self.RollNum_var.get()} exist in table")
 		# when any insertion happen so update our treeView
 		self.fetchData()
 
@@ -198,9 +198,9 @@ class StudentManagementSystem:
 		self.rollnum_var.set("")
 		self.first_name_var.set("")
 		self.last_name_var.set("")
-		self.contact_var.set("")
 		self.email_add_var.set("")
 		self.gender_var.set("")
+		self.contact_var.set("")
 		self.DOB_var.set("")
 		self.txt_address.delete("1.0", END)
 
@@ -211,21 +211,22 @@ class StudentManagementSystem:
 		# show the values of where the cursor will hover on the studentRecordTable
 		print(row)
 		if len(row) != 0:
-			self.RollNum_var.set(row[0])
-			self.Name_var.set(row[1])
-			self.contact_var.set(row[2])
-			self.EmailAdd_var.set(row[3])
-			self.Gender_var.set(row[4])
-			self.DOB_var.set(row[5])
+			self.rollnum_var.set(row[0])
+			self.first_name_var.set(row[1])
+			self.last_name_var.set(row[2])
+			self.email_add_var.set(row[3])
+			self.gender_var.set(row[4])
+			self.contact_var.set(row[5])
+			self.DOB_var.set(row[6])
 			self.txt_address.delete("1.0", END)
-			self.txt_address.insert("1.0", row[6])
+			self.txt_address.insert("1.0", row[7])
 		#print(row)
 
 	def updateData(self):
-		data = (self.RollNum_var.get(), self.Name_var.get(), self.contact_var.get(), self.EmailAdd_var.get(), self.Gender_var.get(),
-		        self.DOB_var.get(), self.txt_address.get("1.0", END), self.RollNum_var.get())
+		self.data = (self.rollnum_var.get(), self.first_name_var.get(), self.last_name_var.get(), self.EmailAdd_var.get(), self.Gender_var.get(),
+		         self.contact_var.get(), self.DOB_var.get(), self.txt_address.get("1.0", END), self.RollNum_var.get())
 
-		self.DB.updateData(data)
+		self.DB.updateData(self.data)
 		# when any update happen so update our treeView
 		self.fetchData()
 		# And clear our text box for again put new data
