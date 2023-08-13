@@ -1,5 +1,5 @@
 import mysql.connector
-
+import datetime
 
 class DB_connect():
 	database=""
@@ -18,35 +18,49 @@ class DB_connect():
 			self.isConnectDB = False
 
 
-	def addIntoDB(self, items: tuple):
-		'''gender, contact, dob, address, rollnum, first_name, last_name, email'''
+	def addIntoDB(self, items: list):
+		'''Add tuples into a Database 
+		gender, contact, dob, address, rollnum, first_name, last_name, email'''
 		# items = ('Male', '1234567890', '2000-01-01', '123 Main St', 101, 'John', 'Doe', 'john@example.com')
-		#query to insert into DB table
-		sqlQuery = f"BEGIN; -- Start the transaction\
-			-- Insert into Basic table\
-			INSERT INTO {self.table}Basic (gender, contact, dob, address)\
-			VALUES (%s, %s, %s, %s);\
-			-- Get the last inserted Basic id\
-			SET @basic_id = LAST_INSERT_ID();\
-			-- Insert into Record table\
-			INSERT INTO {self.table} (rollnum, first_name, last_name, email, basic_id)\
-			VALUES (%s, %s, %s, %s, @basic_id);\
-			COMMIT; -- Commit the transaction"
+		status = None
 		try:
-			self.cursor.execute(sqlQuery, items)
-			self.mydb.commit()
-			return True
+			# Convert the date format to 'YYYY-MM-DD'
+			dob = datetime.datetime.strptime(items[2], '%d/%m/%Y').strftime('%Y-%m-%d')
+			# Insert into Basic table
+			basic_query = f"INSERT INTO {self.table}Basic (gender, contact, dob, address) VALUES (%s, %s, %s, %s)"
+			basic_values = (items[0], items[1], dob, items[3])
+			self.cursor.execute(basic_query, basic_values)
 
+			# Get the last inserted Basic id
+			self.cursor.execute("SELECT LAST_INSERT_ID()")
+			basic_id = self.cursor.fetchone()[0]
+
+			# Insert into Record table
+			record_query = f"INSERT INTO {self.table} (rollnum, first_name, last_name, email, basic_id) VALUES (%s, %s, %s, %s, %s)"
+			record_values = items[4: ]
+			record_values.append(basic_id)
+			self.cursor.execute(record_query, record_values)
+
+			# Commit the transaction
+			self.mydb.commit()
+			status = 1
 		except mysql.connector.errors.IntegrityError:
 			# if  primary key is already exist so data insertion is not possible
-			return False
-
+			status = 2
+		except mysql.connector.Error as err:
+			# Rollback on error
+			print("Error:", err)
+			self.mydb.rollback()
+			status = 3
+		
+		return status 
+		
 	def gettingData(self):
-		sqlQuery = f"SELECT r.rollnum, r.first_name, r.last_name, r.email, b.gender, b.contact, b.dob, b.address\
-				FROM {self.table} r\
-				JOIN {self.table}Basic b ON r.basic_id = b.id;"
-		# getting all attribute from Table
-		print(sqlQuery)
+		'''getting all attribute from Table'''
+		sqlQuery = f"""SELECT r.rollnum, r.first_name, r.last_name, r.email, b.gender, b.contact, b.dob, b.address
+				FROM {self.table} as r
+				JOIN {self.table}Basic as b ON r.basic_id = b.id;"""
+		sqlQuery.replace('\n', ' ')
 		self.cursor.execute(sqlQuery)
 		return self.cursor.fetchall()
 		
@@ -116,7 +130,7 @@ class DB_connect():
 		"""
 		self.table = tableName
 		sqlQuery = f'CREATE TABLE IF NOT EXISTS {self.table}Basic (\
-					id INT PRIMARY KEY,\
+					id INT AUTO_INCREMENT PRIMARY KEY,\
 					gender VARCHAR(10),\
 					contact VARCHAR(15),\
 					dob DATE,\

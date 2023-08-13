@@ -175,14 +175,18 @@ class StudentManagementSystem:
 	def insert(self):
 		# self.data = (self.rollnum_var.get(), self.first_name_var.get(), self.last_name_var.get(), 
 		# 	        self.email_add_var.get(), self.gender_var.get(), self.contact_var.get(), self.DOB_var.get(), self.txt_address.get("1.0", END))
-		self.data = (self.gender_var.get(), self.contact_var.get(), self.DOB_var.get(), self.txt_address.get("1.0", END),
-	       self.rollnum_var.get(), self.first_name_var.get(), self.last_name_var.get(), self.email_add_var.get())
+		self.data = [self.gender_var.get(), self.contact_var.get(), self.DOB_var.get(), self.txt_address.get("1.0", END),
+	       self.rollnum_var.get(), self.first_name_var.get(), self.last_name_var.get(), self.email_add_var.get()]
 		if self.rollnum_var.get() == '' or self.first_name_var.get() == '' :
 			messagebox.showerror("RollNum or First Name not inserted", "insert RollNum and First Name field is mandatory")
-		elif InsertDone := self.DB.addIntoDB(self.data):
-			messagebox.showinfo("Insertion", "Insertion is successFully Done")
-		else:
-			messagebox.showerror("Insertion", f"Insertion is not possible because  Rollno {self.RollNum_var.get()} exist in table")
+		elif insertDone := self.DB.addIntoDB(self.data):
+				if insertDone == 1:
+					messagebox.showinfo("Insertion", "Insertion is successFully Done")
+				elif insertDone == 2:
+					messagebox.showerror("Insertion", f"Insertion is not possible because  Rollno {self.rollnum_var.get()} exist in table")
+				else:
+					messagebox.showerror("Insertion", 
+			 			f'Database is unable to process please check the internet connection')
 		# when any insertion happen so update our treeView
 		self.fetchData()
 
