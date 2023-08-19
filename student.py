@@ -132,7 +132,7 @@ class StudentManagementSystem:
 		searchLabel.grid(row=0, column=0, padx=10, pady=10)
 
 		com_gen = ttk.Combobox(recordFrame, font=("Consolas", 18, "bold"), width=10, state="readonly", textvariable=self.searchBy)
-		com_gen["values"] = ("RollNum", "Name", "Contact")
+		com_gen["values"] = ("RollNum", "First_Name", "Contact")
 		com_gen.grid(row=0, column=1, padx=5, pady=10)
 
 		txt_Search = Entry(recordFrame, font=("Consolas", 15, "bold"), bd=5, relief="ridge", width=25, textvariable=self.searchTxt)
@@ -154,6 +154,9 @@ class StudentManagementSystem:
 		scroll_Y.pack(side=RIGHT, fill=Y)
 		scroll_X.config(command=self.studentRecordTable.xview)
 		scroll_Y.config(command=self.studentRecordTable.yview)
+		# Set anchor='center' for all columns using a loop
+		for column in self.studentRecordTable['columns']:
+			self.studentRecordTable.column(column, anchor='center') # Tree data comes in center 
 		self.studentRecordTable.heading("roll", text="Roll No.")
 		self.studentRecordTable.heading("fname", text="First Name")
 		self.studentRecordTable.heading("lname", text="Last Name")
@@ -227,8 +230,8 @@ class StudentManagementSystem:
 		#print(row)
 
 	def updateData(self):
-		self.data = (self.rollnum_var.get(), self.first_name_var.get(), self.last_name_var.get(), self.EmailAdd_var.get(), self.Gender_var.get(),
-		         self.contact_var.get(), self.DOB_var.get(), self.txt_address.get("1.0", END), self.RollNum_var.get())
+		#'NewGender', 'NewContact', 'NewDOB', 'NewAddress', 101, 'NewFirstName', 'NewLastName', 'new_email@example.com', 101
+		self.data = (self.gender_var.get(), self.contact_var.get(), self.DOB_var.get(), self.txt_address.get("1.0", END), self.rollnum_var.get(), self.first_name_var.get(), self.last_name_var.get(), self.email_add_var.get(), self.rollnum_var.get())
 
 		self.DB.updateData(self.data)
 		# when any update happen so update our treeView
@@ -238,9 +241,9 @@ class StudentManagementSystem:
 
 	def deleteInfo(self):
 		try:
-			keyRoll = self.RollNum_var.get()
-			self.DB.deleteData(key=keyRoll)
-		except:
+			keyRollNum = self.rollnum_var.get()
+			self.DB.deleteData(key=keyRollNum)
+		except Exception:
 			messagebox.showerror("Roll Number Field", "Please Enter Roll Number")
 		# when any update happen so update our treeView
 		self.fetchData()
@@ -253,9 +256,7 @@ class StudentManagementSystem:
 		elif self.searchTxt.get() == "":
 			messagebox.showerror("Error", "Insert into text field. which you want to search")
 		else:
-			query = f"SELECT * FROM {self.DB.table} WHERE {str(self.searchBy.get())} LIKE '%{str(self.searchTxt.get())}%'"
-			print(query)
-			rows = self.DB.searchByFetch(query)
+			rows = self.DB.searchByFetch(self.searchBy.get(), self.searchTxt.get())
 			if len(rows) != 0:  # data is update in a table so we need to show new data that's why we delete data in a treeView
 				self.studentRecordTable.delete(*self.studentRecordTable.get_children())
 				# updatation

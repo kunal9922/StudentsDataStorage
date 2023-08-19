@@ -49,7 +49,6 @@ class DB_connect():
 			status = 2
 		except mysql.connector.Error as err:
 			# Rollback on error
-			print("Error:", err)
 			self.mydb.rollback()
 			status = 3
 		
@@ -57,47 +56,51 @@ class DB_connect():
 		
 	def gettingData(self):
 		'''getting all attribute from Table'''
-		sqlQuery = f"""SELECT r.rollnum, r.first_name, r.last_name, r.email, b.gender, b.contact, b.dob, b.address
+		selectAllQuery = f"""SELECT r.rollnum, r.first_name, r.last_name, r.email, b.gender, b.contact, b.dob, b.address
 				FROM {self.table} as r
-				JOIN {self.table}Basic as b ON r.basic_id = b.id;"""
-		sqlQuery.replace('\n', ' ')
-		self.cursor.execute(sqlQuery)
+				JOIN {self.table}Basic as b ON r.basic_id = b.id ORDER BY r.rollnum;"""
+		selectAllQuery.replace('\n', ' ')
+		self.cursor.execute(selectAllQuery)
 		return self.cursor.fetchall()
 		
 
 	def updateData(self, items: tuple):
-		sqlQuery = f"BEGIN; -- Start the transaction\
-			UPDATE {self.table}Basic as b\
-			JOIN {self.table} AS r ON b.id = r.basic_id\
-			SET b.gender = %s,\
-				b.contact = %s,\
-				b.dob = %s, -- New value for dob\
-				b.address = %s\
-			WHERE r.rollnum = %s; -- Use the appropriate condition to identify the record in the Basic table\
-			UPDATE {self.table}\
-			SET first_name = %s,\
-				last_name = %s,\
-				email = %s,\
-			WHERE rollnum = %s; -- Use the appropriate condition to identify the record in the Record table\
-			COMMIT; -- Commit the transaction"
-		self.cursor.execute(sqlQuery, items)
+		#('NewGender', 'NewContact', 'NewDOB', 'NewAddress', 101, 'NewFirstName', 'NewLastName', 'new_email@example.com', 101)
+		updateQuery1 = f"UPDATE {self.table}Basic as b\
+            JOIN {self.table} AS r ON b.id = r.basic_id\
+            SET b.gender = %s,\
+                b.contact = %s,\
+                b.dob = %s,\
+                b.address = %s\
+            WHERE r.rollnum = %s;".replace("\n", " ")
+		self.cursor.execute(updateQuery1, items[:5])
+		
+		updateQuery2 = f"UPDATE {self.table}\
+				SET first_name = %s,\
+                last_name = %s,\
+                email = %s\
+            	WHERE rollnum = %s;".replace("\n", " ")
+		self.cursor.execute(updateQuery2, items[5:])
 		self.mydb.commit()
 
 	def deleteData(self, key: int):
 
-		sqlQuery = f"BEGIN; -- Start the transaction\
-			-- Delete from Record table\
-			DELETE FROM {self.table} WHERE rollnum = %s; -- Use the appropriate condition to identify the record in the Record table\
-			-- Delete associated Basic data\
-			DELETE FROM {self.table}Basic WHERE id NOT IN (SELECT basic_id FROM {self.table});\
-			COMMIT; -- Commit the transaction\
-			"
-		print(sqlQuery)
-		self.cursor.execute(sqlQuery)
+		deleteQuery = (
+			f"DELETE FROM {self.table} WHERE rollnum = {key}; ",
+			f"DELETE FROM {self.table}Basic WHERE id NOT IN (SELECT DISTINCT basic_id FROM {self.table}); "
+		)
+		# in python we can't execute multiple SQL queries at once that is why iterating each of them
+		for delQ in deleteQuery:
+			self.cursor.execute(delQ)
 		self.mydb.commit()
 
-	def searchByFetch(self, sqlQuery):
-		self.cursor.execute(sqlQuery)
+	def searchByFetch(self, searchBy, searchTxt):
+		# Fetch the data from the database
+		searchQuery = f"SELECT r.rollnum, r.first_name, r.last_name, r.email, b.gender, b.contact, b.dob, b.address FROM {self.table} as r\
+				JOIN {self.table}Basic as b ON r.basic_id = b.id\
+				WHERE {str(searchBy)} LIKE '%{str(searchTxt)}%'".replace("\n", " ")
+		
+		self.cursor.execute(searchQuery)
 		return self.cursor.fetchall()
 
 	def shows(self, whichSet: str):
