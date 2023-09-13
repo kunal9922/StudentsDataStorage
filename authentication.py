@@ -3,6 +3,7 @@ from tkinter.font import Font
 import DBconnect
 from tkinter import messagebox
 from student import StudentManagementSystem
+import re
 class ShowDBFrame():
 	def __init__(self):
 		self.hostName = ""
@@ -28,7 +29,6 @@ class ShowDBFrame():
 
 
 	def getfoucs(self, event):
-
 		try:
 			cs = self.listDBs.curselection()  # list of items we were selected that store inside it variable called cs
 			print(cs)
@@ -62,7 +62,6 @@ class ShowDBFrame():
 
 	def DBFrame(self):
 		self.lableDBframe = tk.LabelFrame(self.rootWin, text="DataBase Entry", font=("Time Roman", 20, "bold"), bd=3, relief="ridge", bg="#73ebe1")
-
 		# place where all available DB will show
 		self.lableDBframe.grid(row=3, column=0, padx=10, pady=10)
 		listFrame = tk.Frame(self.lableDBframe)
@@ -102,8 +101,8 @@ class ShowDBFrame():
 	def getfoucstable(self, event):
 		try:
 			cs = self.listTables.curselection()
-			self.tablevar.set(self.listTables.get(cs[0])[0])
-			print(self.listTables.get(cs[0])[0])
+			self.tablevar.set(self.listTables.get(cs[0]))
+			print(self.listTables.get(cs[0]))
 		except IndexError:
 			pass
 
@@ -133,15 +132,26 @@ class ShowDBFrame():
 		self.listTables.delete(0, tk.END)
 		listTables = self.DB.shows("TABLES")
 
-		# fill rows of Available databases
+		# Define a regular expression pattern to match strings ending with "basic"
+		pattern = r'^.*basic$'
+		# Use list comprehension to remove the matched pattern from each string
+		listTables = [s[0] for s in listTables if not re.match(pattern, s[0])]
+
+		# fill rows of Available Tables
 		for table in listTables:
 			self.listTables.insert(tk.END, table)
 	
 	def deleteTable(self):
 		self.DB.deleteTable(self.tablevar.get())
 		listofTables = self.DB.shows("TABLES")
+
+		# Define a regular expression pattern to match strings ending with "basic"
+		pattern = r'^.*basic$'
+		# Use list comprehension to remove the matched pattern from each string
+		listofTables = [s[0] for s in listofTables if not re.match(pattern, s[0])]
+
 		self.listTables.delete(0, tk.END)  # Delete all OLD entries from index 0 to the end
-		# fill rows of Available databases
+		# fill rows of Available Tables
 		for tableName in listofTables:
 			self.listTables.insert(tk.END, tableName)
 
@@ -183,7 +193,13 @@ class ShowDBFrame():
 		self.listTables.delete(0, tk.END)  # Delete all Old entries from index 0 to the end
 		# insert result to it's list boxes
 		Tables = self.DB.showTables()
-		# fill rows of Available databases
+
+		# Define a regular expression pattern to match strings ending with "basic"
+		pattern = r'^.*basic$'
+		# Use list comprehension to remove the matched pattern from each string
+		Tables = [s[0] for s in Tables if not re.match(pattern, s[0])]
+
+		# fill rows of Available Tables
 		for table in Tables:
 			self.listTables.insert(tk.END, table)
 
