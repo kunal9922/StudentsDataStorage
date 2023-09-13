@@ -5,13 +5,13 @@
 * Achieved a high level of data integrity with MySQL, exceeding 99.9% reliability, resulting in a probability of data corruption or inconsistencies below 0.1%.
 
 ## User Authentication UI
-![authUI](https://github.com/kunal9922/StudentDataStorage/assets/53283003/5390418e-7cda-4804-a80a-f1fb6fab3b56)
+![authUI](https://github.com/kunal9922/StudentDataStorage/assets/53283003/31dd5214-cb6c-4bdf-ae46-9a85306f4219)
 
 ## Database Selecting UI Interface  
-![databaseUI](https://github.com/kunal9922/StudentDataStorage/assets/53283003/7c60b4e7-8389-4856-834f-a5b862d5c5f8)
+![databaseUI](https://github.com/kunal9922/StudentDataStorage/assets/53283003/25f7840c-14c6-4218-aca7-73cc8cad9b23)
 
 ## Records Entry Window
-![recordsEntryUI](https://github.com/kunal9922/StudentDataStorage/assets/53283003/92bda68f-fee9-4753-99fe-2569250357dc)
+![recordsEntryUI](https://github.com/kunal9922/StudentDataStorage/assets/53283003/042d47a1-5db6-45e2-b53b-a85093fc4d23)
 
 ## ER Diagram
 ![ER_diagram](https://github.com/kunal9922/StudentDataStorage/assets/53283003/89ceed8f-422b-4bf5-a94a-426fda07c1be)
